@@ -21,7 +21,8 @@ A-Z
 0-9
 $
 _
-if we are using any other character we will get compile time error.
+
+-> if we are using any other character we will get compile time error.
 Example:->
 total_number -> valid
 total#symbol -> invalid
@@ -31,7 +32,7 @@ total#symbol -> invalid
 total123 -> valid
 123total -> invalid
 
--> java identifiers are case sensitive.of course java language itself is treated as case sensitive
+-> java identifiers are case-sensitive. Of course java language itself is treated as case sensitive
 programming language.
 class test{
 	int NUMBER = 10;
@@ -41,7 +42,7 @@ class test{
 we can differentiate with respect to case.
 
 
--> there is no length limit for java identifiers but it is not recommended to take too lengthly identifiers.
+-> there is no length limit for java identifiers, but it is not recommended to take too lengthly identifiers.
 
 -> we can't use reserved words as identifiers.
 int x =10; -> valid
@@ -206,9 +207,50 @@ Data Types In Java:
 -> every assignment should be checked by compiler for type compatibility.
 -> because of above reasons we can conclude java language is strongly typed programming language.
 
--> java is not considered as pure object oriented programming language because several oop features are
+-> java is not considered as pure object-oriented programming language because several oop features are
 not satisfied by java(like operator overloading,multiple inheritance,etc).
 moreover we are depending on primitive data types which are not a objects.
+
+Why Java is NOT a 100% Object-Oriented Programming Language ?
+-> Although Java is strongly object-oriented, it is not considered a pure object-oriented language because it
+doesn’t fully adhere to the principle that “everything is an object.”
+
+i. Use of Primitive Data Types
+-> Java supports 8 primitive data types: byte, short, int, long, float, double, char, boolean
+These are not objects — they store raw values for performance reasons.
+int x = 10;  // 'int' is a primitive, not an object
+Even though Java provides wrapper classes (Integer, Float, etc.), these still rely on primitives internally.
+Because primitives exist, Java breaks the “everything is an object” rule, which makes it not 100% object-oriented.
+
+ii. Lack of Operator Overloading
+In pure OOP languages like Smalltalk or even C++, operators can be redefined for user-defined types.
+In Java, operator overloading is not supported (except for + in String concatenation).
+
+int a = 5 + 6;        // Works
+String s = "Hi " + "there";  // Works (special case)
+
+❌ You cannot overload operators for your own classes in Java.
+
+iii. Static Members (Variables and Methods)
+-> Static members belong to the class, not an object.
+They can be accessed without creating an object, which violates pure OOP principles.
+class Demo {
+    static void show() {
+        System.out.println("Static method");
+    }
+}
+Demo.show(); // Accessed without any object
+Since static methods can exist without objects, Java is not purely object-oriented.
+
+iv. Multiple Inheritance Not Supported for Classes
+-> Java avoids multiple inheritance (where one class inherits from multiple classes) to prevent ambiguity
+(the “diamond problem”).
+Instead, Java uses interfaces to simulate multiple inheritance — a workaround, not pure OOP.
+class A {}
+class B {}
+// class C extends A, B { } // ❌ Not allowed in Java
+
+
 
 Primitive Data Types:->
 	Numeric Data Types
@@ -304,7 +346,7 @@ int x = true // CE:incompatible types found boolean requried int
 
 iv. long:->
 -> sometimes int may not enough to hold big values then we should go for long type.
-Example1:-> the amount of distance travelled by ligh in thousands days,to hold this value int may not
+Example1:-> the amount of distance travelled by light in thousands days,to hold this value int may not
 enough.we should go for long data type.
 long l = 1,26,000 * 60 * 60 *24 * 24
 Example2:-> the number of character present in a big file may exceed int range hence the return type of
@@ -314,7 +356,7 @@ long l = f.length();
 size : 8 byte(64 bit)
 range: -2pow(63) to 2pow(63)-1
 
-Note:-> all the above data types(byte,short,int,long) meant for representing integeral values.if we want
+Note:-> all the above data types(byte,short,int,long) meant for representing integral values.if we want
 to represent floating point values then we should go for floating point data types.
 
 Floating Point Data Types:->
@@ -348,25 +390,25 @@ boolean b = "True"; // CE: incompatible types found found java.lang.String requi
 Example:->
 int x = 0;
 if(x){
-	System.out.pritnln("Hello");
+	System.out.println("Hello");
 }
 else {
-	System.out.pritnln("Hi");
+	System.out.println("Hi");
 }
 
 while(0){
 	System.out.println("hello");
 }
-//CE: imcompatible type found:int required boolean
+//CE: incompatible type found:int required boolean
 // while this statement works fine in javascript.that's why java is strongly typed language.
 
 ii. char:->
--> old languages(like c,c++) are ascii code based and the number of alowed different ascii character are
+-> old languages(like c,c++) are ascii code based and the number of allowed different ascii character are
 less than or equal to 256.to represent these 256 characters 8 bits are enough hence the size of char
 in old languages is 1 byte.
--> but java is unicode based,and the number of different unicode characters are greater than 256 and less
-than or equal 65536.to represent these many characters 8 bits may not enough compulsary we should go for
-16 bits.hence the size of char in java is 2 byte(16 bit).
+-> but java is Unicode based,and the number of different Unicode characters are greater than 256 and less
+than or equal 65536.to represent these many characters 8 bits may not enough compulsory we should go for
+16 bits. Hence the size of char in java is 2 byte(16 bit).
 -> Range: 0 to 65535
 -> every escape character is a valid char literal.
 Example:
@@ -444,7 +486,7 @@ Here long(8 byte) can be assigned to float(4 byte) Why?
 representation internally.
 float f = 10l;
 
-char vs short(both takes 2 bytes):-> we can't assigned value to each other becasue short is signed data
+char vs short(both takes 2 bytes):-> we can't assign value to each other because short is signed data
 type and char is unsigned data type.
 ====================================================================================================
 Literal In Java:
@@ -468,27 +510,27 @@ i. Integral Literals
 		-> allowed digit are 0-7
 		-> example int x = 010;
 		-> literal value should be prefixed with 0.
-	c. hexa decimal literal
+	c. hexadecimal literal
 	-> base 16
 	-> allowed digit are 0-9,a-f
 	-> example int x = 0X10 or 0x10;
 	-> literal value should be prefixed with 0X or 0x
-	-> for extra digit a-f,we can use both lowercase and uppercase characters.this is one of very few ares
-	   where java is not case sensitive.
+	-> for extra digit a-f,we can use both lowercase and uppercase characters. This is one of very few ares
+	   where java is not case-sensitive.
 
 -> these are only possible ways to specify literal value for integral data types.
--> by default every integral literal is of int type but we can specify explictly as long type by suffix with
+-> by default every integral literal is of int type, but we can specify explicitly as long type by suffix with
 small l or capital L.
 int x = 10; //valid
-logn l = 10L; //valid
+long l = 10L; //valid
 int x = 10l; //invalid
 long l = 10; //valid
 
 -> by default every interal is of  type of int.
 
--> there is no direct way to specify byte and short literal explictly but indirectly we can specify.whenver
+-> there is no direct way to specify byte and short literal explicitly, but indirectly we can specify. Whenever
 we are assigning integral literal to the byte variable and if the value within the range of byte then compiler
-treats it automatically as byte literal.similarly short literal also.
+treats it automatically as byte literal. Similarly short literal also.
 byte b = 10; //valid
 byte b = 127 //valid
 byte b = 128 //invalid
@@ -497,26 +539,26 @@ short s = 32767; //valid
 short s = 32768; //invalid
 
 Floating Point Literals:->
--> by default every floating point literal is of double type.hence we can't assign directly to the float
+-> by default every floating point literal is of double type. Hence, we can't assign directly to the float
 variable.
 -> but we can specify floating point literal as float type by suffixed with f or F.
 float f = 123.456; //invalid
 float f = 123.456f; //valid
 double d = 123.456; //valid
 
--> we can specify explictly floating point literal as double type by suffixed with 'd' or 'D'.offcourse
+-> we can specify explicitly floating point literal as double type by suffixed with 'd' or 'D'.off course
 this convention is not required.
 double d = 123.456D; //valid but not recommended because by default literal is double type.
 float f = 123.456d; //invalid
 
--> we can specify floating point literals only in decimal form and we can't specify in octal and hexadecimal
+-> we can specify floating point literals only in decimal form, and we can't specify in octal and hexadecimal
 forms.
 
 double d = 123.456; //valid
 double d = 0123.456; //valid it is decimal litreal but not octal
 double d = 0x123.456 //invalid
 
--> we can assign integral literal directly to floating point variables and that integral litral can be
+-> we can assign integral literal directly to floating point variables and that integral literal can be
 specified either in decimal or octal or hexadecimal forms.
 
 
@@ -539,8 +581,8 @@ float f = 1.3e3f; //valid
 Boolean Literal:->
 -> the only allowed values for boolean data type are true or false.
 boolean b = true; //valid
-boolean b = 0; //invalid incompatible types found int required boolean
-boolean b = True; //invalid can't find symbol variable true in class Test
+boolean b = 0; //invalid incompatible types found int required boolean b = True; //invalid can't find symbol
+variable true in class Test
 boolean b = "true"; //invalid incompatible types found java.lang.String requried boolean
 
 
@@ -551,17 +593,17 @@ char ch = a; //CE: cannot find symbol symbol:variable a location class Test
 char ch ="a"; //CE: incompatible types found java.lang.String required char.
 char ch = 'ab'; //CE1: unclosed char literal CE2: unclosed char literal or CE3: not a java statement.
 
--> we can specify char literal as intergral literal which represents unicode value of the character.and that
-integral literal can be specified either in decimal or octal or hexadecimal forms.but allowed range is
+-> we can specify char literal as integral literal which represents Unicode value of the character. And that
+integral literal can be specified either in decimal or octal or hexadecimal forms. But allowed range is
 0-65535.
-Exampel:
+Example:
 char ch = 97; //print a
 char ch = 0xFace; //valid
 char ch = 0777; //valid
 char ch = 65535; //valid
 char ch = 65536; //invalid CE:possible loss of precision found int requried char
 
--> we can represent char literal in unicode representation which is nothing but '\uxxxx'.
+-> we can represent char literal in Unicode representation which is nothing but '\uxxxx'.
 here x is a hexadecimal number
 Example
 char ch = '\u0061';
@@ -573,12 +615,12 @@ Arrays In Java:
 -> the main advantage of arrays is we can represent huge number of values by using single variable so that
 readability of the code will be improved.
 -> but the main dis-advantage of arrays is fixed in size i.e once we creates an array there is no chance of
-increasing or decreasing the size based on our requirement hence to use arrays concept compulsary we should
+increasing or decreasing the size based on our requirement hence to use arrays concept compulsory we should
 know size in advance,which may not possible always.
 
 Array Declaration:->
 i. One Dimensional Array Declaration:->
-int[] x; //valid best recomended because name is clearly separated from type.
+int[] x; //valid best recommended because name is clearly separated from type.
 int x[]; //valid
 int []x; //valid
 
@@ -602,8 +644,8 @@ int[] a[],b[]; // a-> 2,b-> 2
 int[] []a,b; // a-> 2,b-> 2
 int[] []a,b[]; // a-> 2,b>3
 int[] []a,[]b //CE:
--> if we wan to specify dimension before the variable that facility is applicable only for first variable
-in a declaration.if we are trying to apply for remaining variable we will get compile time error.
+-> if we want to specify dimension before the variable that facility is applicable only for first variable
+in a declaration. if we are trying to apply for remaining variable we will get compile time error.
 
 
 iii. Three Dimensional Array Declaration:
@@ -642,7 +684,7 @@ boolean[] 					[Z
 
 Loop Holes:->
 
--> at the time array creation compulsary we should specify the size otherwise we will get compile time error.
+-> at the time array creation compulsory we should specify the size otherwise we will get compile time error.
 int[] a = new int[]; //invalid
 int[] a = new int[8]; //valid
 
@@ -653,7 +695,7 @@ int[] x = new int[0];
 array size exception.
 intp[] x = new int[-6];
 
--> to specify array size the allowed data types are byte,short,char,int.if we trying to specify any other type then we will get
+-> to specify array size the allowed data types are byte,short,char,int.if we're trying to specify any other type then we will get
 compile time error.
 int[] x = new int[10];
 int[] x = new int['a'];
@@ -672,8 +714,8 @@ even in the first line we may get runtime exception if sufficient heap memory no
 
 
 ii. Two Dimensional Array Creation:->
--> in java two dimensional array not implemented by using matrix representation.sun people follwed array of arrays approach for
-multi-dimensional array creation.
+-> in java two-dimensional array not implemented by using matrix representation. sun people followed array of arrays approach for
+multidimensional array creation.
 the main advantage of this approach is memory utilization will be improved.in c if there are a place in matrix which are not
 used then memory should be wasted at that point.this approach overcomes this problem
 
@@ -694,7 +736,7 @@ x[10] = new int[2];
 x[1][1] = new int[2];
 
 Array Initialization:->
--> once a we creates an array every element by default initialized with default values.
+-> once a creation an array every element by default initialized with default values.
 int[] x = new int[3];
 System.out.println(x);
 System.out.println(x[0]);
@@ -721,14 +763,14 @@ output:->
 int[][] x = new int[2][];
 System.out.println(x);
 System.out.println(x[0]);
-System.out.pritnln(x[0][0]);
+System.out.println(x[0][0]);
 
 output:->
 [[@fa3434
 null
 RE:null pointer exception
 
--> once we creates an array every array element by default initialized with default values.if we are not satisfied with default
+-> once we create an array every array element by default initialized with default values. if we are not satisfied with default
 values then we can override these values with our customized values.
 int[] x = new int[6];
 x[0] = 10;
@@ -798,12 +840,12 @@ Note:-> length variable applicable for arrays but not for string objects whereas
 for arrays.
 
 Loop holes:->
--> in multi-dimensional arrays length variable represents only base size but not total size.
+-> in multidimensional arrays length variable represents only base size but not total size.
 int[][] x = new int[6][3];
 sysout(x.length); // 6
 sysout(x[0].length); //3
 
--> there is no direct way to find total  length of multi dimensional array but indirectly we can find as follows.
+-> there is no direct way to find total  length of multidimensional array, but indirectly we can find as follows.
 x[0].length + x[1].length + x[2].length + .........
 
 
@@ -829,14 +871,14 @@ class Test{
 new int[3]{10,20,30}; //invalid
 new int[]{10,20,30}; //valid
 
--> we can create multi-dimensional anonymous arrays also
+-> we can create multidimensional anonymous arrays also
 new int[][]{{10,20},{10,20,30}}; //valid
 
 -> based on our requirement we can give the name for anonymous array then it is no longer anonymous.
 int[] x = new int[]{10,20,30};
 
 Array Element Assignments:->
-case-I:-> in the case of primitive type arrays as array elements we can provide any type which can be implictly promoted to
+case-I:-> in the case of primitive type arrays as array elements we can provide any type which can be implicitly promoted to
 declared type.
 Example1:-> in the case of int type arrays
 int[] x = new int[5];
@@ -872,7 +914,7 @@ run[0] = new Thread();
 run[1] = new String("maehsh"); CE:incompatible types.
 
 Array Variable Assignments:->
-case-I:-> element level promotions are not applicable at array level.for example char element can be promoted to int type
+case-I:-> element level promotions are not applicable at array level. for example char element can be promoted to int type
 whereas char array can not be promoted to int array.
 
 int[] x = {10,20,30};
@@ -898,7 +940,7 @@ Object[] o = s;
 
 
 case-II:-> when we are assigning one array to another array internal elements won't be copied just reference variable will be
-re-assigned.that's why size doesn't matter during assigning.
+re-assigned. that's why size doesn't matter during assigning.
 Example:->
 int[] a = {10,20,30,40,50};
 int[] b = {70,80}
@@ -907,8 +949,8 @@ a = b;
 b = a;
 
 
-case-III:-> whenever we are assigning one array to another array the dimension must be matched.for example in the place of one
-dimensional int array we should provide one dimensional array only.if we are trying to provide any other dimension then we will
+case-III:-> whenever we are assigning one array to another array the dimension must be matched. for example in the place of one
+dimensional int array we should provide one dimensional array only. if we are trying to provide any other dimension then we will
 get compile time error.
 
 int[][] a = new int[3][];
@@ -938,7 +980,7 @@ Example:
 Student s = new Student();
 
 
-Division2:based on position of decalration and behaviour all variables are divided into 3 types.
+Division2:based on position of declaration and behaviour all variables are divided into 3 types.
 i. instance variables
 ii. static variables
 iii. local variables
@@ -950,7 +992,7 @@ i. instance variables:->
 -> instance variable will be created at the time of object creation and destroyed  at the time of object destruction hence the
 scope of instance variable is exactly same as the scope object.
 -> instance variable will be stored in the heap memory as the part of object.
--> we can't access instance variable directly from static area but we can access by using object references.but we can access
+-> we can't access instance variable directly from static area, but we can access by using object references. but we can access
 variable directly from instance area.
 Example:
 class Test{
@@ -970,7 +1012,7 @@ class Test{
 	}
 }
 
--> for instance variables JVM will always provide default values and we are not required to perform initialization explictly.
+-> for instance variables JVM will always provide default values, and we are not required to perform initialization explicitly.
 Example:
 class Test {
 	int x;
@@ -1000,10 +1042,10 @@ null
 
 ii. static variables:->
 -> if the value of a variable is not varied from object to object then it is not recommended to declare variable as instance
-variable.we have to declare such type of variable at class level by using static modifier.
+variable. we have to declare such type of variable at class level by using static modifier.
 -> in the case of instance variables for every object a separate copy will be created but in the case of static variables a single
-copy will be created at class level.and shared by every object of the class.
--> static variables should be declared within the class directly but outside of any method or block or constructor.
+copy will be created at class level. And shared by every object of the class.
+-> static variables should be declared within the class directly but outside any method or block or constructor.
 -> static variables will be created at the time of class loading and destroyed at the time of class unloading hence scope of static
 variable is exactly same as scope of .class file.
 -> program life cycle
@@ -1020,7 +1062,7 @@ at iv step static variable will be created.
 at vi static variable will be destroyed.
 
 -> static variable will be stored in method area.
--> we can access static variables either by object reference or by class name but recommended to use class name.within the same
+-> we can access static variables either by object reference or by class name but recommended to use class name. Within the same
 class it is not required to use class name and we can access directly.
 class Test{
 	static int x = 10;
@@ -1035,7 +1077,7 @@ class Test{
 
 
 -> we can access static variable directly from both instance and static areas.
--> for static variables JVM will provide default values and we are not required to perform initialization explictly.
+-> for static variables JVM will provide default values, and we are not required to perform initialization explicitly.
 
 class Test{
 
@@ -1078,11 +1120,11 @@ public class Test {
 
 
 iii. local variable:->
--> sometimes to meet temporary requirements of the programmer we can declare variables inside a method or block or constructor.such
+-> sometimes to meet temporary requirements of the programmer we can declare variables inside a method or block or constructor. such
 type of variables are called local variables or temporary variables or stack variables or automatic variables.
 -> local variables will be stored inside stack memory.
--> local variables will be created while executing the block in which we declared it.once block execution completes automatically
-local variable will be destroyed.hence the scope of local variable is the block in which we declared it.
+-> local variables will be created while executing the block in which we declared it. once block execution completes automatically
+local variable will be destroyed. hence the scope of local variable is the block in which we declared it.
 ->
 class Test {
 	public static void main(String args[]){
@@ -1108,8 +1150,8 @@ class Test {
 	}
 }
 
--> for local variables JVM won't provide default values.compulsary we should perform initialization explictly.if we are not using local variable then
-we don't need to initialize local variable.if we want to use that local variable,before using local variable must initialized.
+-> for local variables JVM won't provide default values. compulsory we should perform initialization explicitly. if we are not using local variable then
+we don't need to initialize local variable. if we want to use that local variable,before using local variable must initialize.
 
 class Test {
 	public static void main(String args[]){
@@ -1130,7 +1172,7 @@ class Test {
 }
 
 output:-
-CE:variable x might not have initialize.
+CE:variable x might not have initialized.
 
 class Test {
 	public static void main(String args[]){
@@ -1143,7 +1185,7 @@ class Test {
 }
 
 output:->
-CE: CE:variable x might not have initialize.
+CE: CE:variable x might not have initialized.
 
 
 class Test {
@@ -1159,13 +1201,13 @@ class Test {
 		System.out.println(x);
 	}
 }
-here value x is always intilized so don't need to initialize.
+here value x is always initialized so don't need to initialize.
 
 Note:->
--> it is not recommended to perform initialization for local variables inside logical blocks because there is no gurantee for the execution these
+-> it is not recommended to perform initialization for local variables inside logical blocks because there is no guarantee for the execution these
 blocks always at runtime.
 -> it is highly recommended to perform initialization for local variables at the time of declaration at least with default values.
--> the only applicable modifier for local variables is final.by mistake if we are trying to apply any other modifier then we will get compile time
+-> the only applicable modifier for local variables is final. by mistake if we are trying to apply any other modifier then we will get compile time
 error.
 
 class Test {
@@ -1184,21 +1226,21 @@ class Test {
 
 
 
-Note:-> if we are not declaring with any modifier then by default it is defaut but this rule is applicable only for instance and static variables but
+Note:-> if we are not declaring with any modifier then by default it is default but this rule is applicable only for instance and static variables but
 not for local variables.
 
 
 
 Conclusions:->
--> for instance and static variables JVM will provide default values and we are not required to perform initialization explictly.but for local variables
-JVM won't provide default values compulsary we should perform initialization explictly before using that variable.
+-> for instance and static variables JVM will provide default values, and we are not required to perform initialization explicitly. But for local variables
+JVM won't provide default values compulsory we should perform initialization explicitly before using that variable.
 -> instance and static variables can be accessed by multiple threads simultaneously and hence these are not thread safe but in the case of local
 variables for every thread a separate copy will created and hence local variables are thread safe.
 
 
 Possible combination of Division1 vs Divison2:->
 -> every variable in java should be either instance or static or local.
--> every variable in java shoudl be either primitive or reference.
+-> every variable in java should be either primitive or reference.
 -> hence various possible combination of variables in java are
 
 instance -> primitive:-> int x;
@@ -1238,7 +1280,7 @@ int[] x = new int[3];
 sysout(x); //[I@efa323
 syosut(x[0]; //0
 
-Note:-> once we creates an array every array element by default initialized with default values.irrespective of whether it is instance or static or local
+Note:-> once we created an array every array element by default initialized with default values. Irrespective of whether it is instance or static or local
 array.
 
 =========================================================================================================================================================
@@ -1246,10 +1288,10 @@ array.
 Var Args Method In Java:
 Var-args Method(Variable Number of argument method):->
 
--> until 1.4 version we can't declare a method with variable number of arguments.if there is a change in number of arguments compulsary we should go
+-> until 1.4 version we can't declare a method with variable number of arguments. If there is a change in number of arguments compulsory we should go
 for new method.it increases length of the code and reduces readability.
 
--> to overcome this problem sun people introduced var-arg methods in 1.5 version.according to this we can declare a method which can take variable no
+-> to overcome this problem sun people introduced var-arg methods in 1.5 version. According to this we can declare a method which can take variable no
 of arguments such type of methods are called var args methods.
 
 -> we can declare a var-arg method as follows
@@ -1298,7 +1340,7 @@ class Test{
 }
 CE:can't declare both m1 of int[] andm m1(int...) in Test
 
--> in general var-arg method will get least priority i.e if no other method matched then only var args method will get the chance.it is exactly same
+-> in general var-arg method will get the least priority i.e if no other method matched then only var args method will get the chance.it is exactly same
 as default case inside switch statement.
 class Test{
 
@@ -1372,7 +1414,7 @@ output:->
 
 Main Method In Java:
 -> whether class contains main method or not and whether main method is declared according to requirement or not these things won't be checked by
-compiler.at runtime JVM is responsible to check these things.if JVM unable to find main method then we will get runtime exception saying nosuchmethoderror
+compiler. at runtime JVM is responsible to check these things.if JVM unable to find main method then we will get runtime exception saying nosuchmethoderror
 :main.
 Example:->
 class Test {
@@ -1402,7 +1444,7 @@ final synchronized strictfp public static void main(String... args);
 
 
 case-I:-> overloading of the main method is possible but JVM will always call string array argument main method only.the other overloaded method we
-have to call explictly like normal method call.
+have to call explicitly like normal method call.
 
 class Test{
 	public static void main(String args[]){
@@ -1427,7 +1469,7 @@ class c extends p {
 
 }
 
-case-III:-> it seems overriding concept applicalble for main method but it is not overriding and it is method hiding.
+case-III:-> it seems overriding concept applicable for main method but it is not overriding and it is method hiding.
 class P {
 	public static void main(String[] args){
 		sysout("parent main");
@@ -1450,7 +1492,7 @@ Enhancement on main method after 1.7 version:->
 saying NoSuchMehtodError:main,but from 1.7 version onwards instead of NoSuchMethodError we will get more elloborated error information saying
 main method not found in class Test.
 
--> from 1.7 version onwards main method is mandatory to start program execution hence eventhough class contains static block it won't be executed
+-> from 1.7 version onwards main method is mandatory to start program execution hence even though class contains static block it won't be executed
 if the class doesn't contain main method.
 
 
@@ -1606,7 +1648,7 @@ Java Coding Standards:
 
 Java Language Coding Standard:->
 ==========================================================================================================================================================
--> whenever we are writing java code it is highly recomended to follow coding standards. whenever we are writing any component it's name should reflect
+-> whenever we are writing java code it is highly recommended to follow coding standards. whenever we are writing any component it's name should reflect
 the purpose of that component(functionality).
 -> the main advantage of this approach is readability and maintainability of the code will be improved.
 Noob Style:->
@@ -1704,7 +1746,7 @@ Syntax for setter method:->
 Syntax for getter method:->
 -> it should be public method.
 -> the return type should not be void.
--> method name shoud prefixed with get.
+-> method name should prefixed with get.
 -> it should not take any argument.
 
 * for boolean properties getter method name can be prefixed with either get or is.but recommended to use is 'is'.
