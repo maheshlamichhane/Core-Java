@@ -1,0 +1,776 @@
+Flow Control:->
+-> it describes the order in which the statements will be executed at runtime.
+
+Flow Control:
+	Selection Statements
+		if-else
+		switch
+	Iterative Statements
+		while()
+		do-while()
+		for()
+		for-each loop
+	Transfer Statements
+		break
+		continue
+		return
+		try-catch-finally
+		assert
+
+===================================================================================================
+Selection Statements:->
+i. if else:->
+syntax:
+if(b)
+{
+	// action if b is true
+}
+else {
+	// action if b is false
+}
+-> the argument to the if statement should be boolean type by mistake if we are trying to provide any
+other type then we will get compile time error.
+int x = 0;
+if(x){
+sysout("Hello");
+}
+else
+{
+	sysout("Hi");
+}
+
+output:->
+incompatible types found int required boolean
+
+int x = 10;
+if(x=20){
+sysout("Hello");
+}
+else{
+syosut("Hi");
+}
+
+output:->
+incompatible types found int required boolean
+
+int x = 10;
+if(x == 20){
+syosut("Hello");
+}
+else{
+sysout("Hi");
+}
+
+output:
+Hi
+
+boolean b = true;
+if(b = false){
+sysout("Hello");
+}
+else{
+syosut("Hi");
+}
+
+output:->
+Hi
+
+
+boolean b = false;
+if(b == false){
+sysout("Hello");
+}
+else{
+sysout("Hi");
+}
+
+output:
+Hello
+
+-> else part and curly braces are optional.without curly braces only one statement is allowed under
+if which should not be declarative statement.
+if(true)
+sysout("Hello");
+//valid
+
+if(true);
+//valid
+
+if(true)
+int x = 10;
+//invalid
+
+if(true){
+int x = 10;
+}
+//valid
+
+semicolon is a valid java statement which is also known as empty statement.
+
+Note:-> there is no dangling else problem in java.every else is matched or mapped to the nearest if
+statement.
+
+Switch Statement:->
+-> if several options are available then it is not recommended to use nested if else because
+it reduces readability.
+-> to handle this requirement we should go for switch statement.
+syntax:
+switch(x){
+	case 1:
+		// Action-1
+		break;
+	case 2:
+		// Action-2
+		break;
+	case n:
+		// Action-n
+		break;
+	default:
+		// default action
+}
+
+-> the allowed argument types for the switch statement are byte,short,char,int until 1.4 version.but
+from 1.5 version onwards corresponding wrapper classes and enum type also allowed.from 1.7 version
+onwards string type also allowed.
+
+-> curly braces are mandatory except switch everywhere curly braces are optional.
+-> both case and default are optional.i.e an empty switch statement is a valid java syntax.
+Example:
+int x = 10;
+switch(x){
+}
+
+-> inside switch every statement should be under some case or default i.e independent statements are
+not allowed inside switch otherwise we will get compile time error.
+
+Example:
+int x = 10;
+switch(x){
+	System.out.println("Hello");
+}
+
+
+
+-> every case label should be constant i.e constant expression.
+
+Example:
+int x = 10;
+int y = 20;
+switch(x){
+	case 10:
+		sysout(10);
+		break;
+	case y: // here final int y = 20 is allowed;
+		sysout(20);
+		break;
+}
+CE:constant expression required
+
+-> both switch argument and case label can be expressions but case label should be constant expression.
+Example:
+int x = 10;
+switch(x+1){
+	case 10:
+		sysout(10);
+		break;
+	case 10+20+30:
+		sysout(60);
+		break;
+}
+
+-> every case label should be in the range of switch argument type otherwise we will get compile time
+error.
+
+Example:
+byte x = 10;
+switch(x){
+	case 10:
+		sysout(10);
+		break;
+	case 100:
+		sysout(100);
+		break;
+	case 1000:
+		sysout(1000);
+		break;
+}
+//invalid CE:Possible loss of precision found int required byte
+or
+byte x = 10;
+switch(x+1){
+	case 10:
+		sysout(10);
+		break;
+	case 100:
+		sysout(100);
+		break;
+	case 1000:
+		sysout(1000);
+		break;
+}
+//valid
+
+-> duplicate case labels are not allowed otherwise we will get compile time error.
+Example:
+int x = 10;
+switch(x){
+	case 97:
+		sysout(97);
+		break;
+	case 98:
+		sysout(98);
+		break;
+	case 99:
+		sysout(99);
+		break;
+	case 'a': // CE: duplicate case label.
+		sysout('a');
+		break;
+}
+
+Fall Through Inside Switch:->
+-> within the switch if any case is matched from that case onwards all statement will be executed until
+break or end of the switch.this is called fall through inside switch.
+-> the main advantage of fall through inside a switch is we can define common action for multiple
+cases(code re-usability).
+
+Example:
+switch(x){
+	case 0:
+		sysout(0);
+	case 1:
+		sysout(1);
+		break;
+	case 2:
+		sysout(2);
+	default:
+		sysout("default");
+}
+
+advantage of this model in switch:->
+
+switch(x){
+	case 1:
+	case 2:
+	case 3:
+		sysout("Q-1");
+		break;
+	case 4:
+	case 5:
+	case 6:
+		sysout("Q-2");
+		break;
+}
+
+Conclusions:->
+-> within the switch we can take default case at most 1.
+-> default case will be executed if and only if there is no case matched.
+-> within the switch we can write default case anywhere but it is recommended to write as last case.
+
+=====================================================================================================================
+
+
+Iterative Statements:->
+i. while
+ii. do-while
+iii. for loop
+iv. for-each loop
+
+
+While Loop:->
+-> if we don't know no of iteration in advance then we should go for while loop
+Example:
+while(rs.next()){
+}
+while(e.hasMoreElements()){
+}
+while(itr.hasNext()){
+}
+
+-> the argument should be boolean type.if we are trying to provide any other type then we will get
+compile time error.
+
+syntax
+while(b){
+	// action
+}
+
+while(1){
+}
+CE:incompatible types found int required boolean.
+
+
+-> curly braces are optional and without curly braces we can take only one statement under while which
+should not be declarative statement.because it is never used.
+
+while(true){
+sysout("Hello");
+}
+//valid
+while(true); //valid
+while(true)
+	int x = 10;
+//invalid
+while(true){
+ int x = 10;
+}
+//valid
+
+-> see the examples to understand loop holes.
+
+
+while(true){
+	sysout("Hello");
+}
+sysout("Hi");
+//invalid CE:unreachable statement
+
+
+while(false){
+	sysout("Hello");
+}
+sysout("Hi");
+//invalid CE:unreachable statement
+
+
+int a = 10,b=20;
+while(a<b){
+	sysout("Hello");
+}
+sysout("Hi");
+//valid
+output:->
+Hello
+Hello
+Hello
+.......infinite number of time
+
+int a = 10,b=20;
+while(a>b){
+	sysout("Hello");
+}
+sysout("Hi");
+//valid
+output:->
+Hi
+
+
+
+
+final int a = 10,b=20;
+while(a<b){
+	sysout("Hello");
+}
+sysout("Hi");
+//invalid CE:unreachable statement
+
+
+
+final int a = 10,b=20;
+while(a>b){
+	sysout("Hello");
+}
+sysout("Hi");
+//invalid CE:unreachable statements
+
+
+
+Note:->
+-> every final variable will be replaced by the value at compile time only.
+Example:
+final int a=10;
+int b = 20;
+sysout(a); => sysout(10);
+sysout(b); => sysout(b);
+
+-> if every argument is a final variable(compile time constant) then that operation should be
+performed at compile time only.
+Example:
+final int a = 10,b=20;
+int c= 30;
+sysout(a+b); => sysout(30);
+sysout(a+c); => sysout(10+c);
+sysout(a<b); => sysout(true);
+sysout(a<c); => sysout(10<c);
+
+
+Do-While Loop:->
+-> syntax
+do {
+}while();
+b should be boolean type and semicolon is mandatory.
+
+-> if we want to execute loop body at least once then we should go for do-while.
+
+-> curly braces are optional and without curly braces we can take only one statement between do and
+while which should not be declarative statement.
+
+do{
+ sysout("Hello");
+}while(true);
+//valid
+
+do;
+while(true);
+//valid
+
+do
+	int x = 10;
+while(true);
+//invalid
+
+do{
+int x = 10;
+}while(true);
+//valid
+
+do
+while(true);
+//invalid
+
+
+-> this statement is valid.
+
+do
+  while(true)
+   sysout("Hello");
+while(false);
+
+
+-> see the example
+do{
+ sysout("Hello");
+}while(true);
+sysout("Hi");
+//invalid CE:unreachable statement
+
+
+do{
+ sysout("Hello");
+}while(false);
+sysout("Hi");
+//valid
+output:
+Hello
+Hi
+
+int a=10,b=20;
+do{
+ sysout("Hello");
+}while(a<b);
+sysout("Hi");
+//valid infinately hello printed
+
+int a=10,b=20;
+do{
+ sysout("Hello");
+}while(a>b);
+sysout("Hi");
+//valid
+output:
+Hello
+Hi
+
+final int a=10,b=20;
+do{
+ sysout("Hello");
+}while(a<b);
+sysout("Hi");
+//invalid CE:unreachable statement
+
+final int a=10,b=20;
+do{
+ sysout("Hello");
+}while(a>b);
+sysout("Hi");
+//valid
+output:
+Hello
+Hi
+
+
+For Loop:->
+-> for loop is the most commonly used loop in java.
+-> if we know no of iterations in advance then for loop is the best choice.
+syntax:
+for(initialization_section;conditional_check;increament_decreament_section){
+	//loop body
+}
+
+-> curly braces are optional and without curly braces we can take only one statement under for loop,
+which should not declarative statement.
+
+for(int i = 0; true ; i++){
+	sysout("Hello");
+}
+//valid
+
+for(int i = 0; i<10; i++);
+//valid
+
+for(int i = 0; i<10; i++)
+	int x = 10;
+//invalid
+
+Initialization Section:->
+-> this part will be execute only once in loop lifecycle.
+-> here we can declare and initialize local variables of for loop.
+-> here we can declare any no of variables but should be of the same type.
+-> by mistake if we are trying to declare different data type variables then we will get compile time
+error.
+Example:
+int i = 0,j=0; //valid
+int i = 0,String s = "durga"; //invalid
+int i = 0, int j = 0; //invalid
+
+
+-> in the initialization section we can take any valid java statement including sysout.
+Example:
+int i = 0;
+for(sysout("Hello boss u are sleeping");i<3;i++){
+	sysout("No boss only you are sleeping");
+}
+//valid
+output:
+Hello boss u are sleeping
+No boss only you are sleeping
+No boss only you are sleeping
+No boss only you are sleeping
+
+Conditional Check Section:->
+-> here we can take any valid java expression but should be of the type boolean.
+-> this part is optional and if we are not taking anything then compiler will always place true.
+
+
+
+Increament Decreamet Section:->
+-> in the increment or decrement section we can take any valid java statement including sysout.
+Example:
+int i = 0;
+fo(sysout("Hello");i<3;sysout("Hi")){
+	i++;
+}
+
+output:->
+Hello
+Hi
+Hi
+Hi
+
+-> all three parts of for loop are independent of each other and optional.
+for(;;){
+ sysout("Hello");
+}
+//valid
+
+for(;;);
+//valid
+both are infinite loops.
+
+->
+
+for(int i = 0; true; i++)
+{
+	sysout("Hello");
+}
+sysout("Hi");
+//invalid CE:unreachable statement
+
+
+for(int i = 0; false; i++)
+{
+	sysout("Hello");
+}
+sysout("Hi");
+//invalid CE:unreachable statement
+
+
+for(int i = 0;; i++)
+{
+	sysout("Hello");
+}
+sysout("Hi");
+//invalid CE:unreachable statement
+
+
+
+int a = 10,b=20;
+for(int i = 0; a<b; i++)
+{
+	sysout("Hello");
+}
+sysout("Hi");
+//valid
+Hello
+Hello
+Hello
+.....to infinity
+
+int a = 10,b=20;
+for(int i = 0; a>b; i++)
+{
+	sysout("Hello");
+}
+sysout("Hi");
+//valid
+output:
+Hi
+
+
+final int a = 10,b=20;
+for(int i = 0; a<b; i++)
+{
+	sysout("Hello");
+}
+sysout("Hi");
+//invalid CE:unreachable statement
+
+final int a = 10,b=20;
+for(int i = 0; a>b; i++)
+{
+	sysout("Hello");
+}
+sysout("Hi");
+//invalid CE:unreachable statement
+
+For Each Loop:->
+-> introduced in 1.5 version.
+-> it is specially designed loop to retrieve elements of arrays and collection.
+
+Example1:-> to print element of one dimensional array
+int[] x = {10,20,30,40};
+Normal for loop:
+for(int i = 0; i<x.length; i++){
+	sysout(x[i]);
+}
+Enhanced For loop:
+for(int i : x){
+	sysout(i);
+}
+
+Example2:-> to print element of two dimensional array
+int[][] x = { {10,20,30},{40,50}};
+Normal for loop:
+for(int i = 0; i<x.length; i++){
+	for(int j=0; j<x.length; j++){
+		sysout(x[i][j]);
+	}
+}
+Enhanced For Loop:->
+for(in[] x1: x){
+	for(int xx: x1){
+		sysout(xx);
+	}
+}
+
+
+-> for each loop is the best choice to retrieve elements of arrays and collections but it's limitation
+is it is applicable only for arrays and collections and it is not a general purpose loop.
+for(int i = 0; i <= 10; i++){
+	sysout("Hello");
+}
+we can't write equivalent for each loop directly.
+
+-> by using normal for loop we can print array elements either in original order or in reverse order.but
+by using for each loop we can print array elements only in original order but not in reverse order.
+Example:
+int[] x = {10,20,30,40,50};
+for(int i = x.length-1; i>=0; i--){
+	sysout(x[i]);
+}
+
+Iterable(I):->
+for(eachitem x: target){
+}
+target can be array or collection
+target can can be iterable object
+
+-> the target element in for each loop should be iterable object.
+-> an object is said to be iterable if and only if corresponding class implements java.lang.Iterable
+interface.
+-> iterable interface introduced in 1.5 version.and it contains only one method named iterator.
+public Iterator iterator();
+
+-> all array related classes and collection implemented classes already implemented iterable interface.
+-> being a programmer we are not required to do anything just we should aware the point.
+
+Differences between Iterator and Iterable:->
+-> it is related to collection VS it is related to for each loop.
+-> we can use to retrieve the element of collection one by one VS the target element in for each loop
+should be iterable.
+-> iterator present in java.util package VS it is present in java.lang package
+-> iterator contains 3 methods called hasNext,next,remove. VS iterable contains only one method called
+iterable.
+
+================================================================================================================
+
+Transfer Statements:->
+break
+continue
+return
+try-catch-finally
+assert(1.4)
+
+break statement:->
+-> we can use break statement in the following places.
+i.break inside switch
+int x = 0;
+switch(x){
+	case 0:
+	  sysout(0);
+	  break;
+	 case 1:
+	 	sysout(1);
+	 	break;
+	 default:
+	 	sysout("Hi");
+}
+
+ii. inside for loops
+for(int i = 0; i<=10; i++)
+{
+	if (i==5){
+	break;
+	}
+}
+
+iii. inside labeled loops
+class Test{
+	public static void main(String args[]){
+		int x = 10;
+		l1:
+		{
+			sysout("begin");
+			if(x==10){
+				break l1;
+			}
+			sysout("end");
+		}
+		sysout("Hello");
+	}
+}
+output:
+begin
+Hello
+
+continue statement:->
+-> we can use continue statement inside loops to skip current iterations and continue for the next
+iterations.
+
+for(int i =0; i<10; i++)
+{
+	if(i%2 == 0){
+		continue;
+	}
+	sysout(i);
+}
+output:->
+1
+3
+5
+7
+9
+
+Labelled break and continue:we can use labelled break and continue to break or continue the particular
+loop in nested loops.
+=========================================================================================================
