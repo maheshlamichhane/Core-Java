@@ -1,0 +1,837 @@
+Increament & Decreament Operator:->
+
+
+Expression		initial value of x			value of y			final value of x
+y=++x			10							11					11
+y=x++			10							10					11
+y=--x			10							9					9
+y=x--			10							10					9
+
+Loop Hole:->
+-> we can apply increment and decrement operators only for variables but not for constant values.if we are trying
+to apply for constant values then we will get compile time error.
+
+
+int x = 10;
+int y = ++x;
+sysout(x);
+
+output:
+11
+
+int x = 10;
+int y = ++10;
+syosut(x);
+
+output:
+CE: unexpected type found value required variable.
+
+-> nesting of increment and decrement operators not allowed.
+
+int x = 10;
+int y = ++(++x);
+sysout(10);
+
+output:
+CE:unexpected type required variable found value.
+
+-> for final variables we can't apply increment and decrement operators.
+int x = 10;
+x =11;
+sysout(x);
+
+output:
+11
+
+final int x = 10;
+x++;
+syosut(x);
+
+output:
+CE:can't assign a value to final variable x
+
+-> we can apply increament and decreament operators for every primitive type except boolean.
+
+int x = 10;
+x++;
+sysout(x);
+
+output:
+11
+
+char ch ='a';
+ch++;
+sysout(ch);
+
+output:
+b
+
+double d = 10.5;
+d++;
+sysout(d);
+
+output:
+11.5
+
+boolean b = true;
+b++;
+sysout(b);
+
+output:
+CE:operator ++ can't applied to boolean
+
+-> difference between b++ and b = b+1 .if we apply any arithmetic operator between two a and b the result type is
+always max(int,type of a,type of b).but in the case of increment and decrement operators internal type casting will
+be performed automatically.
+
+byte b = 10;
+b = b+1;
+sysout(b);
+
+output:
+CE:possible loss of precision found byte required int.
+
+byte b = 10;
+b++;
+sysout(b);
+
+Note: b = (type of b)(b++);
+
+output:
+11
+
+byte a = 10;
+byte b = 20;
+byte c = a+b;
+sysout(c);
+
+output:->
+CE:possible loss of precision found byte required int.
+
+Note:
+byte c = (byte)(a+b); is valid statement
+======================================================================================================================
+
+Arithmetic Operator(+,-,*,/,%):->
+-> if we apply any arithmetic operator between two variables a and b the result type is always max(int,type_of_a,type_of
+_b);
+byte + byte = int
+byte + short = int
+short + short = int
+byte + long = long
+long + double = double
+float + long = float
+char + char = int
+
+Example:
+sysout('a'+0.90); // 97.90
+sysout('a'+'b'); // 195
+
+-> in integral arithmetic(byte,short,int,long) there is no way to represent infinity hence if infinity is a
+result we will get arithmetic exception in integral arithmetic.
+Example:
+sysout(10/0); //RE:Arithmatic Exception divisible by 0
+
+but in floating point arithmetic(float,double) there is a way to represent infinity.for this float and double classes
+contains the following 2 constants
+	-> POSITIVE_INFINITY
+	-> NEGATIVE_INFINITY
+hence even though result is infinity we won't get any arithmetic exception in floating point arithmetic.
+Example:
+sysout(10/0.0); // POSITIVE_INFINITY
+sysout(-10/0.0); // NEGATIVE_INFINITY
+
+
+
+NaN(Not a Number):-> in integral arithmetic(byte,short,int,long) there is no way to represent undefined results hence
+if the result undefined we will get runtime exception saying AE division by zero.
+Example:->
+syosut(0/0); //RE: ArithmeticException divisible by 0 because it produces undefined.
+
+but in floating point arithematic(float,double) there is way to represent undefined results for this float and double
+classes contain NaN constant.hence if the result is undefined we won't get any arithmetic exception in floating point
+arithmetic.
+syosut(0.0/0); // NaN
+sysout(-0/0.0); //Nan
+
+
+
+Note*:-> for any x value including NaN. the following expressions returns false.
+sysout(10 < Float.NaN); //false
+syosut(10 <= Float.NaN); //false
+sysout(10 > Float.NaN); //false
+sysout(10 >= Float.NaN); //false
+sysout(10 == Float.NaN); //false
+sysout(Float.NaN == Float.NaN); //false
+
+for any x value including Nan. the following expressions returns true
+sysout(10 != Float.NaN); //true
+sysout(Float.NaN != Float.NaN); //true
+
+Arithmetic Exception:->
+-> it is runtime exception but not compile time error.
+-> it is possible only in integral arithmetic but not in floating point arithmetic.
+-> the only operators which cause arithmetic exception are '/','%'.
+====================================================================================================================
+String Concatenation Operator:->
+
+-> the only overloaded operator in java is '+' operator sometimes it act as arithmetic addition operator and sometimes
+it acts as string concatenation operator.
+
+-> if at least one argument is string type then plus operator acts as concatenation operator and if both arguments are
+number type then plus operator acts as arithmetic addition operator.
+
+String a = "durga";
+int b=10,c=20,d=30;
+sysout(a+b+c+d); //durga102030
+sysout(b+c+d+a); //60durga
+sysout(b+c+a+d); //30durga30
+syosut(b+a+c+d); //10durga2030
+
+-> consider the following declarations
+
+
+String a = "durga";
+int b = 10,c=20,d=30;
+
+a = b+c+d; // invalid CE:incompatible types found int required java.lang.String
+a = a+b+c; // valid
+b = a+c+d; //invalid CE: incompatible types found java.lang.String requred int
+b = b+c+d; //valid
+===========================================================================================================================
+Relational Operators:->
+-> we can apply relational operators for every primitive type except boolean.relational operators are
+>
+<
+>=
+<=
+
+sysout(10 < 20); // true
+sysout('a' < 10); //false
+sysout('a' < 97.6); //true
+sysout('a' > 'A'); //true
+sysout(true > false);// CE:operator > can't be applied to boolean,boolean
+
+-> we can't applied relational operator for object types.
+Example:
+sysout("mahesh" > "lamichhane");
+CE:operator > can't be applied to java.lang.String,java.lang.String.
+
+-> Nesting of relational operators is not allowed otherwise we will get compile time error.
+Example:
+sysout(10<20); //true
+sysout(10<20<30);
+CE:operator < can't be applied to boolean,int
+======================================================================================================================
+
+Equality Operators(!=,==):->
+-> we can apply equality operators for every primitive type including boolean type also
+Example:
+sysout(10 == 20); //false
+sysout('a' == 'b'); //false
+sysout('a' == 97.0); //true
+sysout(false == false); //true
+
+-> we can apply equality operators for object types also.
+-> for object references r1,r2 r1 == r2 returns true if and only if both references pointing to the same object(reference
+comparison or address comparison).
+Example1:->
+Thread t1 = new Thread();
+Thread t2 = new Thread();
+Thread t3 = t1;
+sysout(t1 == t3); //true
+sysout(t1 == t2); //false
+
+Example2:-> if we apply equality operators for object types then compulsory there should be some relation between
+argument types(either child to parent or parent to child or same type) otherwise we will get compile time error saying
+incomparable types java lang.String and java.lang.Thread.
+
+Thread t = new Thread();
+Object o = new Object();
+String s = new String("durga");
+sysout(t == o); //false
+sysout(o == s); //false
+sysout(s == t); // CE: incomparable type
+
+Difference between == operator and .equals method:->
+-> in general we can use == operator for reference comparison(address comparison) and .equals method for content
+comparison.
+-> .equals method sometimes meant for reference comparison when child class uses object class equals method means
+we are not going to override object class .equals method.
+
+String s1 = new String();
+String s2 = new String();
+sysout(s1 == s2); //false
+sysout(s1.equals(s2)); //true
+
+
+Note:-> for any object reference r== null is always false.but null == null is always true.
+
+String s = new String("durga");
+sysout(s == null); //false
+
+String s = null;
+sysout(s == null); //true
+
+sysout(null == null); //true
+==========================================================================================================================
+Instance Of Operator:
+-> we can use instanceof operator to check whether the given object is of particular type or not.
+Example:->
+ArrayList list = new ArrayList();
+list.add("Mahesh");
+list.add(new Thread());
+list.add(10);
+list.add(new Object());
+
+Object o = list.get(3);
+
+if(o instanceof String) {
+	System.out.println("String Object");
+}
+else if(o instanceof Thread) {
+	System.out.println("Thread Object");
+}
+else if(o instanceof Integer) {
+	System.out.println("Integer Object");
+}
+else if(o instanceof Object) {
+	System.out.println("Object Object");
+}
+
+syntax:->
+r instancof X
+r -> object reference
+X -> class/interface name
+
+Example1:->
+Thread t = new Thread();
+sysout(t instanceof Thread); //true
+sysout(t instanceof Object); //true
+sysout(t instanceof Runnable); //true
+
+Example2:-> to use instance of operator compulsory there should be some relation between argument types(either child to
+parent or parent to child or same type) otherwise we will get compile time error saying inconvertible types.
+Thread t = new Thread();
+sysout(t instanceof String);
+CE:inconvertible found thread required string
+
+Note:-> for any class or interface X null instance of x is always false.
+Example
+null instance of Thread; //false
+=========================================================================================================================
+
+Bitwise operators(&,|,^):->
+
+& -> AND :-> returns true iff both arguments are true.
+| -> OR :-> returns true if at least one argument is true.
+^ -> X-OR: -> returns true if and only if both arguments are different.
+
+Example:->
+sysout(true & false); //false
+sysout(true | false); //true
+sysout(true ^ false); //true
+
+
+-> we can apply these operators for integral types also.
+
+sysout(4 & 5);
+  100
++ 101
+--------
+  100
+// 4 answer
+
+sysout(4 | 5);
+  100
++ 101
+-------
+  101
+//5 answer
+
+sysout(4 ^ 5);
+  100
++ 101
+---------
+  001
+//1 answer
+
+
+
+
+
+Bitwise Complement Operator(~):-> we can apply this operator only for integral types but not for boolean type.if we
+are trying to apply for boolean type then we will get compile time error.
+sysout(~true);
+CE:operator ~ cannot be applied to boolean
+sysout(~4)
+it is int variable so size is 32bit
+0 0000....................000100
+~4 = 1111.................111011
+it's 2's complement can be
+0000................000100
++                        1
+-----------------------------
+0000................00101
+which is -5 is the answer
+
+Note:-> this mechanism is same for &,|,^ but it does not affect so that we don't reference as this.
+
+Boolean Complement Operator(!):-> we can apply this operator only for boolean types but not for integral types.
+sysout(!4);
+CE:operator ! cannot be applied to int.
+sysout(!false); //true
+=======================================================================================================================
+
+Short Ciruit Operators(&&,||):->
+-> these are exactly same as bitwise operators(&,|) except the following differences
+(&,|) VS (&&,||):
+i. both arguments should be evaluated always VS second argument evaluation is optional
+ii. relatively performance is low VS relatively performance is high
+iii. applicable for both boolean and integral types VS applicable only for boolean but not for integral types.
+
+
+
+Note:->
+x && y
+->  y will be evaluated if x is true.
+-> i.e if x is false then y won't be evaluated.
+
+x || y
+-> y will be evaluated iff x is false.
+-> i.e if x is true then y won't be evaluated.
+
+Example:->
+int x = 10,y = 15;
+if(++x < 10 & ++y > 15){
+	x++;
+}
+else
+{
+	y++;
+}
+sysout(x+"..."+y);
+
+output:  x     y
+& :->    11    17
+&& :->   11    16
+| :->    12    16
+|| :->   12    16
+
+
+int x = 10;
+if(++x < 10 && (x/0 > 10)){
+	sysout("Hello");
+}
+else{
+ sysout("Hi");
+}
+
+output:
+Hi
+
+Note: if we replace && with & then we will get arithmetic operation.
+
+
+==================================================================================================================
+Type-cast Operator:->
+-> there are two types of type-casting
+i. implicit type casting
+ii. explicit type casting
+
+Implicit Type-casting:->
+-> compiler is responsible to perform implicit type-casting.
+-> whenever we are assigning smaller data type value to bigger data type variable implicit type-casting will be
+performed.
+-> it is also know as widening or upcasting.
+-> there is no loss of information in this type casting.
+-> the following are various possible conversions where implicit type casting will be performed.
+
+int x = 'a';
+sysout(x); //97
+compiler converts char to int automatically by implict type-casting
+
+double d = 10;
+sysout(d); //10.0
+compiler converts int  to double  automatically by implicit type-casting
+
+byte -> short
+byte -> int
+char -> int
+short -> int
+int -> long
+
+
+
+Explicit Type-casting:->
+-> programmer is responsible to perform explicit type casting.
+-> whenever we are assigning bigger data type value to smaller data type variable then explicit type casting is required.
+-> it is also known as narrowing or down casting.
+-> there may be a chance of loss of information in this type casting.
+
+int x = 130;
+byte b = x; // CE: possible loss of precesion found int required byte
+byte b = (byte)x; //valid
+sysout(b);
+
+output:->
+-126
+
+Note:->
+
+byte	->	short
+					 int -> long -> float -> double
+	  char
+
+Left -> Right => Implicit Type casting
+Right -> left => Explicit Type casting
+
+-> whenever we are assigning bigger data type value to smaller data type variable by explicit type casting. the most
+significant bit will be lost.we have consider only LSB bits.
+
+How 130 becomes -126 in above example?
+How this loss of information is happening?
+
+int x = 130 -> 0 000000....010000010
+byte b = (byte)x; => 10000010
+2's complement of 0000010
+1111101
++     1
+--------
+1111110
+
+which is 126
+now final answer is -126
+
+->
+
+int x = 150;
+Short s = (Short)x;
+sysout(s);
+
+output:->
+150
+
+byte b = (byte)x;
+sysout(b);
+
+output:->
+-106
+
+
+-> if we assigned floating point values to the integral types by explicit type casting.the digits after the decimal
+point will be lost.
+Example:->
+double d = 130.456;
+int x = (int) d;
+sysout(x); //130
+
+byte b = (byte)d;
+sysout(b); // -126
+========================================================================================================================
+
+Assignments Operators:->
+-> there are three types of assignment operators
+i. simple assignment
+Example:
+int x = 10;
+
+ii. chained assignment
+Example:
+int a = b = c = d = 20;
+or int a=20,b=20,c=20,d=20;
+
+iii. compound assignment
+Example:
+a += 20;
+
+total assignemtn:
++=
+*=
+/=
+%=
+-=
+&=
+|=
+^=
+>>=
+>>>=
+<<=
+
+-> sometimes assignment operator mixed with some other operator such type of assignment operator are called compound
+assignment operators.
+
+-> in the case of compound assignment operators internal type casting will be performed automatically.
+byte b = 10;
+b = b + 1;
+sysout(b);
+//invalid we already covered about it
+
+byte b = 10;
+b++; / it is same as byte b = (byte)(b+1); so valid
+syosut(b);
+
+byte b = 10;
+b += 1;
+sysout(b);
+//valid here also internal type casting will be performed
+byte b = (byte)(b+1);
+
+byte b = 127;
+b += 3;
+sysout(b);
+
+output:->
+-126
+
+=======================================================================================================================
+
+Conditional Operator(?:):->
+Syntax:->
+int x = 10 < 20 ? 30 : 40; // 30
+
+int x = (10 > 20) ? 30: ((40 > 50) ? 60:70)); //70
+
+-> the only possible ternary operator in java is conditional operator.
+=======================================================================================================================
+New Operator:->
+-> we can use new operator to create object.
+Example:
+Test t = new Test();
+
+Note:->
+-> after creating an object constructor will be executed to perform initialization of an object hence constructor is
+not for creation of object and it is for initialization of an object.
+-> in java we have only new keyword but not delete keyword because destruction of useless objects is the
+responsibility of garbage collector.
+=======================================================================================================================
+Array Open and Close Operator:
+[] Operator:->
+-> we can use this operator to declare and create arrays.
+Example:
+int[] x = new int[];
+
+========================================================================================================================
+Java Operator Precedence Chart:->
+1. Unary Operators:
+[],x++,x--,
+++x,--x,~,!,
+new,<type>
+
+2.Arithmetic Operators:
+*,/,%,
++,-
+
+3.Shift Operators:
+>>,>>>,<<
+
+4.Comparison Operators:
+<,<=,>,>=,instanceof
+
+5.Equality Operators:
+==, !=
+
+6.Bitwise Operators:
+&
+^
+|
+
+7.Short circuit Operators:
+&&
+||
+
+8.Conditional Operators:
+?:
+
+9.Assignment Operators:
+=,+=,-=,*=...
+========================================================================================================================
+
+Evaluation Order of Operand Operator:
+-> there are multiple operators with same precedence then evaluation will be done from left to right.
+Example:
+public class Test {
+
+	public static void main(String[] args) {
+
+		System.out.println(m1(1)+m1(2) * m1(3)/m1(4)+m1(5)*m1(6));
+
+	}
+
+	public static int m1(int i) {
+		System.out.println(i);
+		return i;
+	}
+
+}
+
+1 + 2 * 3 / 4 + 5 * 6;
+1 + 6 / 4 + 5 * 6
+1 + 1 + 5 * 6
+1 + 1 + 30
+32
+
+-> in java we have only operator precedence but not operand precedence.before applying any operator all operands will
+be evaluated from left to right.
+=======================================================================================================================
+
+New Vs NewInstance:->
+-> we can use new operator to create an object if we know class name at the beginning.
+Example:
+Test t  = new Test();
+Student s = new Student();
+Customer c = new Customer();
+
+-> newInstance is a method present in Class class,we can use new instance method to create object if we don't know
+class name at the beginning and it is available dynamically at runtime.
+
+Example:
+Object o = Class.forName(args[0]).newInstance();
+System.out.println("Object Created For="+o.getClass().getName());
+
+-> in real world newInstance operator is used in servlet. when every request comes in servlet container automatically
+creates servlet object from web.xml file using newInstance method.
+
+-> in general case it is optional to generate constructor.in general if we don't provide our own no arg constructor
+then compiler automatically add no arg constructor.if we provide our own constructor then our no-arg constructor will
+be invoked.but in new instance method compiler automatically add the constructor and creates an object.
+
+-> in the case of new operator based on our requirement we can invoke any constructor.
+Example
+Test t = new Test();
+Test t1 = new Test(10);
+Test t2 = new Test("durga");
+
+but new instance method internally calls no arg constructor.hence to use new instance method compulsory corresponding
+should contain no arg constructor.otherwise we will get runtime exception saying installation exception.
+
+-> while using new operator at runtime if the corresponding .class file is not available then we will get runtime
+exception saying NoClassDefFoundError:Test.
+Example:
+Test t = new Test();
+at runtime if Test.class file is not available then we will get runtime exception saying noclassdeffound error.
+
+-> while using newinstance method at runtime if the corresponding .class file is not available then we will get
+runtime exception saying ClassNotFoundException.
+Example
+Object o = Class.forName(args[0]).newInstance();
+java Test Test123
+at runtime if Test123.class file is not available then we will get runtime exception saying ClassNotFoundException:Test
+123.
+
+new Vs newInstance:->
+-> it is an operator in java VS it is a method present in java.lang.Class.
+-> we can use new operator to create objects if we know class name at the beginnning VS we can use newInstance method
+to create object if we don't know class name at the beginning and it is available dynamically at run time.
+-> to use new operator class not required to contain no-arg constructor VS to use newInstance method compulsary
+class should contain no-arg constructor otherwise we will get runtime exception saying instantation exception.
+
+-> at runtime if the corresponding .class file not available then we will get runtime exception saying no classdeffound
+error which is unchecked. VS at runtime if the corresponding .class file not available then we will get runtime
+exception saying classnotfound exception,which is checked.
+
+========================================================================================================================
+
+instanceof VS isInstance():->
+-> instanceof is an operator in java. we can use instanceof to check whether the given object is of particular type
+or not and we know type at the beginning.
+Example:
+Thread t = new Thread();
+System.out.println(t instanceof Runnable);
+System.out.println(t instanceof String);
+
+output:->
+true
+false
+
+-> isInstance is a method present in java.lang.Class.we can use isInstance method to check whether the given object
+is of particular type or not.and we don't know the type at the beginning and it is available dynamically at run time.
+
+Example:
+Thread t = new Thread();
+System.out.println(Class.forName(args[0]).isInstance(t));
+
+java Test Runnable
+
+output:->
+true
+
+-> isInstance is a method equivalent of instance of operator.
+========================================================================================================================
+
+Difference Between ClassNotFoundException VS NoClassDefFoundError:->
+
+-> for hard coded class names,at runtime if the corresponding .class file is not available then we will get runtime
+exception saying NoClassDefFoundError,which is unchecked.
+Example:
+Test t = new Test();
+at runtime if Test.class file is not available then we will get runtime exception saying NoClassDefFoundError:Test.
+
+-> for dynamically provided class names at runtime if the corresponding .class file is not available then we will get
+runtime exception saying ClassNotFoundException,which is checked exception.
+Example:
+Object o = Class.forName(args[0]).newInstance();
+java Test Student
+at runtime if Student.class file not available then we will get runtime exception saying ClassNotFoundException:Student.
+
+========================================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
