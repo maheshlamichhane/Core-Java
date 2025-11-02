@@ -1,0 +1,139 @@
+Roles of new keyword and constructor:->
+The purpose of constructor is:
+-> To Initialize an object but not to create an object.
+-> Whenever we are creating an object after object creation automatically constructor will be
+executed to initialize that object
+-> object creation by new operator then initialization by constructor.
+-> Before constructor only object is ready and hence within the constructor we can access object
+properties like hash code.
+====================================================================================================
+-> Whenever we are creating child class object whether parent object will be created or not??
+
+-> Whenever we are creating child class object,what is the need of executing parent class
+constructor??
+
+-> Anyway we can not create object for abstract class either directly or indirectly,but abstract
+class can contain constructor. what is the need??
+
+-> Anyway we can not create object for abstract class and interface. Abstract class can contain
+constructor but interfaces doesn't why??
+
+-> Inside interface we can take only abstract methods.But in abstract class also we can take only
+abstract methods based on our requirement. then what is the need of interface? i.e is it possilbe
+to replace interface concept with abstract class?
+====================================================================================================
+
+-> Anyway we can not create object for abstract class either directly or indirectly,but abstract
+class can contain constructor. what is the need??
+
+-> Anyway we can not create object for abstract class and interface. Abstract class can contain
+constructor but interfaces doesn't why??
+
+:->
+-> The main purpose of constructor is to perform initialization of an object i.e to provide values for instance
+variable.
+-> Abstract class can contain instance variable which are required for child class object to perform initialization
+of these instance variable the constructor is required inside abstract class.
+-> but every variable present inside interface is always public static and final whether we are declaring or not
+and every interface variable we should perform initialization at the time of declaration and hence inside
+interface there is no chance of existing instance variable.
+-> due to this initialization of instance variable concept not applicable for interfaces.
+-> hence constructor concept not required for interface.
+================================================================================================================
+
+-> Whenever we are creating child class object,what is the need of executing parent class
+constructor??
+
+:->
+class Person{
+	String name,
+	int age;
+
+	Person(String name,int age){
+		this.name = name;
+		this.age = age;
+	}
+}
+
+class Student extends Person{
+	 int roll;
+	 int marks;
+
+	 Student(String name,int age,int roll,int marks){
+	 	super(name,age);
+	 	this.roll = roll;
+	 	this.marks = marks;
+	 }
+}
+
+Student s = new Student("mahesh",22,1001,90);
+it is not feasible to initialize parent class data to the child constructor every time.
+class Teacherextends Person{
+	 String course;
+
+	 Student(String name,int age,String course){
+	 	super(name,age);
+	 	this.course = course;
+	 }
+}
+it is not good programming practise for code re-usability if we initialize every parent member in child class.
+
+-> whenever we are creating child class object automatically parent constructor will be executed to perform
+initialization for the instance variable which are inheriting from parent.
+-> whenever we are creating an object automatically constructor will be executed but it may be one constructor
+or multiple constructors.
+=================================================================================================================
+-> Whenever we are creating child class object whether parent object will be created or not??
+-> whenever we are creating child class object automatically parent constructor will be executed but parent object
+won't be created.
+-> the purpose of parent constructor execution is to initialize child objects only. of course for the instance
+variables which are inheriting from parent class.
+class P{
+	P(){
+		sysout(this.hasCode()); //7224672
+	}
+}
+
+class C extends P{
+	C(){
+		sysout(this.hasCode()); //7224672
+	}
+}
+
+class Test{
+	public static void main(String args[]){
+		C c = new C();
+		sysout(c.hasCode()); //7224672
+	}
+}
+-> in the above example whenever we are creating child objects both parent and child constructors will be
+executed for child object purpose only.
+
+================================================================================================================
+-> Inside interface we can take only abstract methods.But in abstract class also we can take only
+abstract methods based on our requirement. then what is the need of interface? i.e is it possible
+to replace interface concept with abstract class?
+
+:->
+-> we can replace interface with abstract class but it is not good programming practise(This is Like requesting
+IAS officer for sweeping activity)
+
+interface X {
+}
+class Test implements X {};
+
+abstract class X{
+}
+class Test extends X{};
+
+-> while extending X we can't extend any other class.
+-> while implementing interface we can extend any other class and hence we won't miss any inheritance benefits.
+-> in abstract class object creation is costly
+Test t = new Test(); //2 mins
+
+-> in interface object creation is cheap
+Test t = new Test(); //2 sec
+
+-> hence if everything is abstract highly recommended to use interface but not abstract class.
+-> if we are talking about implementation of course partial implementation then we should only go for abstract
+class.
