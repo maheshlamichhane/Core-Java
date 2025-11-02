@@ -1,0 +1,1156 @@
+Data Hiding:-> Outside person can't access our internal data directly or our internal data should not
+go out directly this oop feature is nothing but data hiding. After validation or authentication outside person
+can access our internal data.
+example1:-> after providing proper username and password we can access our gmail inbox information.
+example2:-> even though we are valid customer of the bank we can access our account information and
+we can't access others account information.
+
+-> by declaring data member(variable) as private we can achieve data hiding.
+public class Account{
+ private double balance;
+ public double getBalance(){
+ 	//validation
+ 	return balance;
+ }
+ }
+ -> the main advantage of data hiding is security.
+ Note:-> it is highly recommended to declare data member(variable) as private.
+ ===========================================================================================================
+ Abstraction:-> Hiding internal implementation and just highlight the set of service we are offering, is the
+ concept of abstraction. For Example Bank provide following services in the atm
+ -> Withdraw
+ -> Deposit
+ -> Check Balance
+ these services gave the services without highlighting internal implementation.
+ The main advantage of abstraction are:->
+ i. we can achieve security because we are not highlighting our internal implementation.
+ ii. without affecting outside person we can perform any type of changes in our internal system and
+ hence enhancement will become easy.
+ iii. it improves maintainability of the applications.
+ iv. it improves easiness to use our system.
+
+ by using interfaces and abstract classes we can implement abstraction.
+===============================================================================================================
+Encapsulation:-> the process of binding data and corresponding methods into a single unit is nothing but
+encapsulation.Example
+class student {
+ data_members+methods;
+ }
+ if any component follows data hiding + abstraction such type of component is said to be encapsulated
+ component.
+ encapsulation = data hiding + abstraction
+
+The main advantages of encapsulation are:->
+-> we can achieve security
+-> enhancement will become easy
+-> it improves maintainability of the application.
+-> the main advantage of encapsulation is we can achieve security but main dis-advantage of encapsulation
+is it increases length of the code and slows down execution.
+
+Tightly Encapsulated Class:-> a class is said to be tightly encapsulated if and only if each and every
+variable declared as private. whether class contains corresponding getter and setter methods are not
+and whether these methods are declared as public or not these things we are not required to check.
+
+Class A {
+	private int x;
+	}
+-> it is tightly encapsulated class
+
+Class B extends Class A {
+  public int y;
+  }
+ -> it is not tightly encapsulated class
+
+ Class C extends Class A {
+   private int z;
+   }
+  -> it is tightly encapsulated class
+
+  Note:-> if parent is not tightly encapsulated then no child class is tightly encapsulated. these all
+  features such as data hiding,abstraction,encapsulation refers to the security.
+ =============================================================================================================
+ Is a Relationship:->
+ -> it is also known as inheritance.
+ -> the main advantage of is a relationship is code re-usability.
+ -> by using extends keyword we can implement is a relationship.
+
+ Loop Holes:->
+ -> whatever methods parent has by default available to the child and hence the child reference we can call both
+ parent and child methods.
+ C c = new C();
+ c.m1();
+ c.m2();
+
+ -> whatever methods child has by default not available to the parent and hence on the parent reference
+ we can't call child specific methods.
+ P p = new P();
+ p.m1();
+ // p.m2();
+
+ -> parent reference can be used to hold child objects but using that reference we can't call child
+ specific methods but we can call the methods present in parent class.
+ P p1 = new C();
+ p1.m1();
+ // p1.m2();
+ -> parent reference can be used to hold child object but child reference can not be used to hold parent
+ object.
+ //		C c1 = new P();
+
+
+ Code Without Inheritance:->
+ class ELoan{
+  // 300 methods;
+  }
+ class BLoan{
+  // 300 methods;
+  }
+ class HLoan{
+  // 300 methods
+  }
+
+
+ Code With Inheritance:- If there are 250 methods common between three classes then
+ class Loan{
+  // 250 methods
+  }
+ class ELoan extends Loan{
+  // 50 methods
+  }
+ class BLoan extends Loan{
+  // 50 methods
+  }
+ class HLoan extends Loan{
+  // 50 methods
+  }
+
+ Note:-> here 500 code are reduced. total java api is implemented based on inheritance concept.
+ the most common methods which are applicable for any java object are defined in object class hence
+ every class in java is a child class of object either directly or indirectly so that object class methods
+ by default available to every java class without re-writing due to this object class access root for all
+ java classes.
+ throwable class defines the most common methods which are required for every exception and error classes
+ hence this class access root for java exception hierarchy.
+
+ Multiple Inheritance:-> a java class can't extend more than one class at a time hence java won't provide
+ support for multiple inheritance in classes.
+ Note:->
+ -> if our class doesn't extend any other class then only our class is direct child class of object.
+ Class A{
+  // here A extends Object
+ }
+
+ -> if our class extends any other class then our class is indirect child class of object.
+ Class A extends B{
+  // here B extends Object and A extends B so multilevel inheritance
+  }
+
+  Note:-> either directly or indirectly java won't provide support for inheritance with respect to classes.
+
+
+  Why Java won't support for multiple inheritance:->there may be a chance of ambiguity problem hence
+  java won't provide support for multiple inheritance.Example
+  Class A{
+   public void m1();
+   }
+  Class B{
+   public void m1();
+   }
+  Class C extends A,B
+  {
+   // ambiguity problem
+   }
+
+  but interface can extends any no of interfaces simultaneously hence java provide support for multiple
+  inheritance with respect to interfaces.
+  interface A {
+   }
+  interface B {
+  }
+  interface C extends A,B{
+  }
+
+  Why ambiguity problem won't be there in Interfaces?
+   interface A {
+    //m1
+   }
+  interface B {
+   //m1
+  }
+
+  interface c implements A,B
+  {
+
+  }
+
+  class d implements c {
+   // here only one implementation of m1 method
+  }
+
+  even though multiple declarations are available but implementation is unique and hence there is
+  no chance of ambiguity problem in interfaces.
+
+  Note:- Strictly speaking,through interface we won't get any inheritance.
+
+
+ -> cyclic inheritance is not allowed in java off course it is not required.example
+ class A extends A{
+ }
+ class A extends B{
+ }
+ class B extends A{
+ }
+
+
+
+
+
+
+ Has a Relationship:->
+ -> it is also known as composition or aggregation.
+ -> there is no specific keyword to implement has a relation but most of the time we are depending on new
+ keyword.
+ -> the main advantage of has a relationship is re-usability of the
+ code.
+ Example:->
+ class car {
+  Engine e = new Engine();
+  }
+  car has a engine reference
+
+
+  Difference Between Composition and Aggregation:->
+  -> Without existing container object if if there is no chance of existing contained object then
+  container and contained objects are strongly associated and this strong association is nothing but
+  composition. university consists of several departments without existing university there is no chance
+  of existing department hence university and department are strongly associated and this strong
+  association is nothing but composition.
+
+  -> without existing container object if there is a chance of existing contained object then container
+  and contained object are weakly associated and this weak association is nothing but aggregation.
+  Example:departments consists of several producers without existing department there may be a chance of
+  existing producer objects hence departments and producers objects are weakly associated and this
+  weak association is nothing but aggregation.
+
+  Note:->
+  -> in composition objects are strongly associated whereas in aggregation objects are weakly associated.
+  -> in composition container objects holds directly contained objects whereas in aggregation container
+  object holds just references of contained objects.
+
+
+
+  When to use is a relation and when to use has a relationship?
+  -> if we want a total functionality of your class automatically then we should go for is a relationship
+  -> if we want part of the functionality then we should go for has a relationship.
+================================================================================================================
+Method Signature:-> In java method signature consists of method name followed by argument types.
+public static int m1(int i,float f)
+return type is not part of method signature in java.
+
+compiler will use method signature to resolve method calls.
+within a class two method with a same signature not allowed.
+class test {
+ public void m1(int i){
+ }
+ public int m1(int x){
+  return x;
+ }
+
+ public static void main(String args[]){
+  test t = new test();
+  t.m1(10);
+ }
+ }
+ here compiler gives left and right.
+==============================================================================================================
+Method Overloading:-> two methods are said to be overloaded if and only if both methods having same
+name but different argument types.in c language method overloading concept is not available hence
+we can't declare multiple methods with same name but different argument types.if there is change in
+argument type compulsory we should go for new method name which increases complexity of programming.
+in c:->
+abs(int x)
+fabs(float x)
+labs(long x)
+
+in java we can declare multiple methods with the same name but different argument types.such type of
+method are called overloaded methods.
+abs(int i)
+abs(long l)
+abs(float f)
+
+having overloading concept in java reduces complexity of programming.
+* in overloading method resolution always takes care by compiler based on reference type hence
+overloading is also considered as compile time polymorphism or static polymorphism or early binding.
+
+Loop Holes:->
+case-I:-> automatic promotion in overloading:-> while resolving overloaded methods if exact match
+method is not available then we won't get any compile time error immediately.first it will promote
+argument to the next level and check whether match method is available or not if match method is
+available then it will be considered.if the match method is not available then compiler promotes argument
+once again to the next level.this process will be continued until all possible promotions still if
+the matched method is not available then we will get compile time error.the following are all possible
+promotions in overloading
+byte-short-> int -> long -> float -> double
+char->int
+this process is called automatic promotion in overloading.
+see CaseOne class for example.
+
+case-II:-> while resolving overloaded methods compiler will always gives the precedence for child type
+argument than compared with parent type argument.see case two program.
+
+case-III:-> if there are multiple method matched with the same level of object reference then compiler
+gives you left and right.
+
+case-IV:-> see example in CaseFour
+
+case-V:-> see example CaseFive
+
+case-VI:->
+
+Note:-> in overloading method resolution always takes cares by compiler based on reference type.in
+overloading runtime object won't play any role.
+=============================================================================================================
+Overriding:-> whatever method parents has by default available to the child through inheritance.if child
+class not satisfied with the parent class implementation then child is allowed to re-define that method
+based on it's requirement.this process is called overriding.the parent class method which is overridden
+is called overridden method and child class method which is overriding is called overriding method.
+
+P p = new P();
+p.marry();
+
+C c = new C();
+c.marry();
+
+P p1 = new C();
+p1.marry();
+//at run time if marry method is overloaded then child class marry method will be invoked
+
+* in overriding method resolution always takes cares by JVM based on runtime object and hence overriding
+is also considered as runtime polymorphism or dynamic polymorphism or late binding.
+
+Rules for overriding:->
+-> in overriding method names and argument types must be matched that is method signatures must be
+same.
+-> in overriding return type must be same but this rule is applicable until 1.4 version only from 1.5
+version onwards we can take co-variant return types.according to this child class method return type
+need not be same as parent method return type.it's child type also allowed it means if parent class method
+has return type Object and child class method type is String then it is allowed.see co-variant example.
+
+-> if parent class return type is Object we can take Object,String,StringBufffer as child class
+return type.
+-> co variant return type concept applicable only for object type but not for primitive
+types.
+-> parent class private method not available to the child and hence overriding concept not
+applicable for private methods.
+-> based on our requirement we can define exactly same private method in child class it is valid but
+not overriding.
+-> we can't override parent class final method in child classes. if we are trying to override we will
+get compile time error called overridden method is final.
+-> parent class abstract method we should override in child class to provide implementation.
+-> we can override non abstract method as abstract.
+class p {
+ public void m1(){
+ }
+ }
+
+abstract class c extends p{
+ public abstract void m1(){
+ }
+ }
+here no matter which class extends c that class must provide implementation of m1 method so
+we can ignore the m1 method by overriding or extending parent class feature.the main advantage of this
+approach is we stop the availability of parent method implementation to the next level child classes.
+-> in overriding the following modifiers won't keep any restriction
+i. synchronized
+ii. native
+iii. strictfp
+iv. non-final to final
+
+-> while overriding we can't reduce scope of access modifiers but we can increase the scope.
+class p{
+protected void m1(){}
+}
+class c extends p {
+ public void m1(){}
+ }
+it is acceptable.private-> default-> protected-> public
+public -> public
+protected -> public,protected
+default -> default,public,protected
+private -> overriding concept not applicable for private methods.
+
+-> if child class method throws any checked exception compulsory parent class method should throw
+the same checked exception or it's parent otherwise we will get compile time error but there are
+no restriction for unchecked exception.this is because when outside class called parent class method
+then the outside method is responsible for handling exception throwed by parent class.tomorrow if
+we override this method in any child class and child class throws parent exception of parent class throwed
+method then outer class can't handle that exception so this rule must follow.
+
+p:public void m1() throws Exception
+c: public void m1()
+valid
+
+p: public void m1()
+c: public void m1() throws Exception
+not valid
+
+p: public void m1() throws Exception
+c: public void m1() throws IOException
+valid
+
+p: public void m1() throws IOException
+c: public void m1() throws Exception
+invalid
+
+p: public void m1() throws IOException
+c: public void m1() throws FileNotFoundException,EOFException
+valid
+
+p: public void m1() throws IOException
+c: public void m1() throws EOFException,InterruptedExcepiton
+not valid
+
+p: public void m1() throws IOExcepiton
+c: public void m1() throws AE,NPE,CCE
+valid
+
+
+-> we can't override static method as non static otherwise we will get compile time error.
+-> similarly we can't override non static method as static.
+-> if both parent and child class method are static then we won't get any compile time error it
+seems overriding concept applicable for static methods but it is not overriding and it is method
+hiding.
+
+Method Hiding:-> all rules of method hiding are exactly same as overriding except the following
+differences
+-> both parent and child class should be static vs both parent and child class should be non static
+-> compiler is responsible for method resolution based on reference type vs JVM is always responsible
+for method resolution based on runtime object.
+-> it is also known as compile time polymorphism or static polymorphism or early binding vs it is
+also known as runtime polymorphism or dynamic polymorphism or late binding.
+
+Note:-> on overriding only child copy is available while in method hiding both copies of object
+are available.
+
+Overriding With Respect to Var args method:->
+
+class p {
+ public void m1(int... x)
+ {
+ 	sopen("parent");
+ }
+}
+
+class c extends p {
+	public void m1(int x)
+	{
+	 sopen("child");
+	 }
+}
+
+class Test {
+	p s v main(string[] args){
+		P p = new P();
+		p.m1(10); // parent called
+
+		C c = new C();
+		c.m1(10); // child method called
+		 P p1 = new C();
+		 p1.m1(10); // parent called
+	}
+}
+Note:we can override var arg method with another var args method only.if we are trying to override with
+normal method then it will become overloading but not overriding.
+
+Overiding with respect to variables:->
+
+class P {
+ int x = 8888;
+ }
+class C extends P {
+ int x = 9999;
+ }
+class Test {
+ p s void main(String args[]){
+  P p = new P();
+  sysout(p.x); // 8888
+  C c = new C();
+  sysout(c.x); // 9999
+
+  P pp = new C();
+  sysout(pp.x); //  8888
+  }
+}
+
+Note:-> variables resolution always takes care by compiler based on reference type irrespective whether the
+variable is static or non static(overriding concept applicable only for methods but not for variables).variables
+resolution is always takes care by compiler.
+
+
+
+
+Differences between Overloading and Overriding respect to property:->
+i.Method Names:-> method name must be same vs method name must be same
+ii.Argument Types:-> must be different(at least order) vs must be same(including order)
+iii.Method Signature:-> must be different vs must be same
+iv.Return types:-> no rule or no restrictions vs must be until 1.4 after that co-varient returns types allowed
+v. Private,Static,Final:-> can be overloaded vs can not be overridden
+vi. Access Modifier:-> No restrictions vs the scope of access modifier can't not be reduced but we can increase
+vii. Throws Class:-> No restrictions vs if child class method throws any checked exceptions compulsary parent
+class method should throw the same checked exception or it's parent but no restriction for unchecked exception
+viii. Method Resolution:-> always takes care by compiler based on reference type vs always takes cares by
+JVM based on Runtime Object.
+ix.Also Knows As:-> compile time polymorphism,early binding,Static Polymorphism vs run time  polymorphism,late
+binding,dynamic polymorphism
+
+Polymorphism:-> one name but multiple forms is concept of polymorphism.
+Example1:-> method name is the same but we can apply for different types of arguments(overloading).
+Example2:-> method signature is same but in parent class one type of implementation and in the child class
+another type of implementation(overriding).
+Example3:-> usage of parent reference to hold child object is the concept of polymorphism or is also
+considered as polymorphism.list class can have different implementation with stack,vector,arraylist,linkedlist.
+
+Note:- parent class reference can be used to hold child object but by using that reference we can call
+only the methods available in parent class and we can't call child specific methods.
+
+When we should go for parent reference to hold child object:-> if we don't know exact runtime type of object
+then we should go for parent reference.
+Example:-> the first element present in the arraylist can be any type.it may be student object or customer
+object or string object.hence the return type of get method is Object,which can hold any object.
+Object o = l.get(0);
+
+Encapsulation:-> always talk about security
+Inheritance:-> always talk about code re-usability
+Polymorphism:-> always talk about Flexibility
+====================================================================================================================
+Coupling:-> the degree of dependency between the components is called coupling.if dependency is more
+then it is considered as tightly coupling and if dependency is less then it is considered as loosely
+coupling.
+Example:-> Tightly Coupled
+class A {
+ static int i = B.j;
+ }
+
+class B {
+ static int j = C.k;
+ }
+
+class C {
+ static int k = D.m1();
+ }
+
+class D {
+ public static int m1(){
+  return 10;
+  }
+ }
+
+the above components are said to be tightly coupled to each other because dependency between the
+components is more.
+tightly coupling is not a good programming practise because it has several serious dis-advantages.
+
+i.Without effecting remaining components we can't modify any component and hence enhancement will
+become difficult.
+ii.It suppresses re-usability
+iii.It reduces maintainability of the application.
+
+hence we have to maintain dependency between the components as less as possible that is loosely coupling
+is a good programming practise.
+
+
+Cohesion:-> for every component a clear well defined functionality is defined then that component is
+said to be follow high cohesion.in programming it is better to design different component for the
+independent parts of the program.for example spring mvc follows high cohesion because it provides
+separate component for modal,view and controller.
+
+
+high cohesion is always is a good programming practise because it has several advantages.
+i.Without effecting remaining components we can modify any component hence enhancement will become
+easier.
+ii.it promotes re-usability of the code(where ever validation is required we can re-use the same
+validate servlet without re-writing).
+iii.it improves maintainability of the application.
+
+Note:-> loosely coupling and high cohesion are good programming practises.these are used at design
+pattern levels,framework levels.
+===============================================================================================================
+Object Type Casting:-> we can use parent reference to hold child object.
+Example:->
+Object o = new String("mahesh")
+we can use interface reference to hold implemented class object
+Example:->
+Runnable r = new Thread()
+
+Syntax:
+A  b = (C)d;
+where
+A = class/interface name
+b = reference variable name
+C = class/interface name
+d = reference variable name
+
+Mantra 1(compile time checking one):-> the type of 'd' and 'C' must have some relation either child to
+parent or parent to child or same type otherwise we will get compile time error saying inconvertible
+types found 'd' type required 'C'.
+
+Example 1:-
+Object o = new String("durga")
+StringBuffer sb = (StringBuffer)o
+this statement is perfect valid.
+
+Example 2:->
+String s = new String("mahesh");
+StringBuffer sb = (StringBuffer)s;
+this statement is invalid.throws CE inconvertible types because there is no relationship between
+StringBuffer and String.
+
+Mantra 2(compile time checking 2):->'C' must be either same or derived type of 'A' otherwise we will
+get compile time error saying incompatible types found 'C' required 'A'.
+
+Example1:->
+Object o = new String("durga")
+StringBuffer sb = (StringBuffer)o
+this statement is perfect valid.
+
+Example2:->
+Object o = new String("mahesh")
+StringBuffer bf = (String)o
+this statement is prefectly invalid.it throws incompatible type exception.
+
+
+Mantra3(Runtime Checking):-> runtime object type of 'd' must be either same or derived type of 'C' otherwise
+we will get runtime exception saying class cast exception.
+Example1:->
+Object o = new String("durga")
+StringBuffer sb = (StringBuffer)o
+we will get runtime exception saying class cast exception java.lang.string can not be cast to string buffer.
+
+Object o = new String("durga")
+Object o1 = (String)o
+prefectly valid statements.
+
+
+
+Type Casting:-> strictly speaking through type casting we are not creating any new object.for the existing
+object we are providing another type of reference variable that is we are performing type casting not object
+casting.
+Example1:->
+String s = new String("maehsh");
+Object o = (Object)s;
+
+Example2:->
+Integer I = new Integer(10);
+Number n = Number(I);
+Object o = (Object)n;
+sysout(I==n) //true
+sysout(n==o) //true
+
+we can also write in single line as
+===============================================================================================================
+Static control flow:->
+
+class Base {
+ static int i=10;
+ static
+ 	{
+ 	 	m1();
+ 	 	sosout("First static block");
+ 	 }
+ public static void main(String args[]){
+ 	m1();
+ 	sosout("main method");
+ }
+
+ public static void m1()
+ {
+ 	sosout(j);
+ }
+ static{
+ 	sosout("second static block");
+ }
+ static int j = 20;
+ }
+
+
+
+ Output:->
+ 0
+ first static block
+ second static block
+ 20
+ main method
+
+ whenever we are executing a java class the following sequence of steps will be executed as the part of static control
+ flow:->
+ Rule:->
+ i. Identification of static members from top to bottom
+ ii. execution of static variable assignment and static blocks from
+ top to bottom.
+ iii. execution of main method
+
+ inside static block if we are trying to read a variable that read operation is called direct read.
+ if we are calling a method and within that method if we are trying to read a variable that read operation is
+ called indirect read.
+
+
+Static Block:-> static block will be executed at the time of class loading.hence at the time of class loading if we
+want to perform any activity we have to define that inside static block.
+Example1:-> at the time of java class loading the corresponding native libraries should be loaded hence we have to
+define this activity inside static block.
+class Test {
+  static{
+    System.loadLibrary("native library path");
+    }
+}
+
+Example2:-> after loading every database driver class we have to register driver class with the driver manager but
+inside database driver class there is a static block to perform this activity and we are not responsible to register
+explicitly.
+class DBDriver{
+ static{
+   register this driver with driver manager
+   }
+}
+
+Note:-> within a class we can declare any no of static blocks but all these static blocks will be executed from
+top to bottom.
+
+Without writing main method is it possible to print some information to the console?
+-> yes by using static block.
+class Test {
+	static {
+		sysout("hello i can print");
+		System.exit(0);
+		}
+	}
+
+Without writing main method and static block is it possible to print some statement to the console?
+-> yes there are multiple ways
+i.
+class Test {
+ static int x = m1();
+ public static int m1(){
+ 	sysout("Hello i can print");
+ 	System.exit(0);
+ 	return 10;
+ 	}
+ }
+
+ii.
+class Test {
+	static Test t = new Test();
+	{
+		sysout("Hello i can print");
+		System.exit(0);
+	}
+}
+
+
+iii.
+class Test {
+	static Test t = new Test();
+	Test(){
+		sysout("Hello i can print");
+		System.exit(0);
+		}
+	}
+
+
+Note:-> from 1.7 version onwards main method is mandatory to start a program execution hence from 1.7 version
+onwards without writing main method it is impossible to print some statement to the console.
+
+Static control flow in parent to child relationship:->
+class Base {
+	static int i = 10;
+	static {
+		m1();
+		sysout("Base Static Block");
+		}
+	p s v main(String args[]){
+		m1();
+		sysout("Base main");
+	   }
+	p s v m1(){
+		sysout(j);
+		}
+	static int j=20;
+}
+
+class Derived extends Base {
+	static int x = 100;
+	static {
+		m2();
+		sysout("Derived Filter static block");
+		}
+	p s v main(String args){
+		m2();
+		sysout("Derived main");
+	}
+
+	p s v m2(){
+		sysout(y);
+	}
+	static {
+		sysout("Derived second static block");
+	}
+	static int y = 200;
+	}
+
+
+Rule:->
+i. Identification of static members from parent to child.
+ii. execution of static variable assignments and static blocks from
+parent to child.
+iii. execution of only child class main method.
+
+
+Output:-> while executing derived class
+0
+Base static block
+0
+Derived First static block
+Derived Second static block
+200
+Derived main
+
+Output:-> while executing parent class
+0
+Base static block
+20
+Base main method
+
+
+
+Instance Control Flow:-> whenever we are executing a java class first static control flow will be executed,in the instance
+control flow if we are creating an object the following sequence of events will be executed as a part of instance control
+flow.
+
+ Rule
+i. identification of instance member from top to bottom
+ii. execution of instance variable assignment and instance blocks from top to bottom
+iii. execution of constructor
+
+
+class Test {
+	int i = 10;
+	{
+		m1();
+		sysout("First Instance Block");
+	}
+	Test()
+	{
+		sysout("constructor");
+	}
+	p s v main(String args[]){
+		Test t = new Test();
+		sysout("main");
+		// Test t1 = new Test(); also check this statement
+	}
+	public void m1()
+	{
+		sysout(j);
+	}
+	{
+		sysout("Second instance block");
+	}
+	int j = 20;
+}
+
+Output:->
+0
+First instance block
+Second instance block
+constructor
+main
+
+Note:-> we need to create a object of the class to activate instance control flow.instance control will be executed for
+every object created separately while in static control flow static blocks executed only once no matter how many object
+created of the class.
+object creation is the most costly operation if there is no specific requirement then it is not recomended to create
+object.
+
+Instance control in parent to child relationship:->
+
+class Parent {
+	int i = 10;
+	{
+		m1();
+		sysout("Parent Instance Block");
+	}
+	Test()
+	{
+		sysout("Parent constructor");
+	}
+	p s v main(String args[]){
+		Parent t = new Parent();
+		sysout("Parent main");
+
+	}
+	public void m1()
+	{
+		sysout(j);
+	}
+	int j = 20;
+}
+
+
+class Child extends Parent {
+	int x = 100;
+	{
+		m2();
+		sysout("Child First Instance Block");
+	}
+	Test()
+	{
+		sysout("Child constructor");
+	}
+	p s v main(String args[]){
+		Parent t = new Parent();
+		sysout("Child main");
+
+	}
+	public void m2()
+	{
+		sysout(y);
+	}
+	{
+		sysout("Child second instance block");
+	}
+	int y = 200;
+}
+
+Lets we assume Child.java we executed then output will be:->
+Rule:->
+i.Identification of instance members from parent to child
+ii. execution of instance variable assignments and instance blocks only in parent class.
+iii. execution of parent constructor
+iv. execution of instance variable assignment and instance blocks in child class.
+v. execution of child constructor
+
+Output:->
+0
+Parent instance block
+Parent constructor
+0
+Child first instance block
+Child second instance block
+Child constructor
+Child main
+===================================================================================================================
+Constructors:-> once we creates an object compulsory we should perform initialization then only the object is in a position
+to respond properly.whenever we are creating an object some piece of the code will be executed automatically to perform
+initialization of the object this piece of the code is nothing but constructor.hence the main purpose of the constructor
+is to perform initialization of an object.
+
+Note:-> the main purpose of constructor is to perform initialization of an object but not to create object.
+
+difference between constructor and instance block:->
+-> the main purpose of constructor is to perform initialization of an object but other than initialization if we want to
+perform any activity for every object creation then we should go for instance block.like updating one entry in the
+database for every object creation or incrementing count value for every object creation etc.
+-> both constructor and instance block have their own different purposes and replacing one concept with another concept
+may not work always.
+-> both constructor and instance block will be executed for every object creation but instance block followed by constructor
+
+Rule for constructor:->
+-> name of the class and name of the constructor must be matched.
+-> return type concept not applicable for constructor even void also.
+-> by mistake if we are trying to declare return type for the constructor then we won't get any compile time error
+because compiler treats it as a method hence it is legal(but stupid) to have a method whose name is exactly same as
+class name.
+-> the only applicable modifiers for constructor are public,private,default,protected(static not allowed).if we are
+trying to use any other modifiers we will get compile time error.
+
+Default Constructor:->
+-> compiler is responsible to generate default constructor(but not JVM).
+-> if we are not writing any constructor then only compiler will generate default constructor that is if we are writing
+at least one constructor then compiler won't generate default constructor hence every class in java can contain constructor
+it may be default constructor generated by compiler or customizer constructor explicitly provided by programmer but not
+both simultaneously.
+
+Prototype of default constructor:->
+-> default constructor is always created by compiler not by human.
+-> it is always no-arg constructor.
+-> the access modifiers of default constructor is exactly same as access modifiers of class. this rule is applicable only
+for public and default.
+-> it contains only one line super(),it is no arg call to super class constructor.
+
+case-I:-> we can super() or this() only in first line of constructor.if we are trying to take anywhere else we will get
+compile time error.
+case-II:-> within the constructor we can take either super or this but not both simultaneously.
+case-III:-> we can use super or this only inside constructor.if we are trying to use outside of constructor we will get
+compile time error.we can call a constructor directly from another constructor only.
+
+Overloaded constructor:-> within a class we can declare multiple constructor and all these constructors having same name but different type of
+arguments hence all these constructor are considered as overloaded constructors.hence overloading concept applicable
+for constructors.
+class Test {
+	Test(){
+		this(10);
+		sysout("no arg constructor");
+		}
+	Test(int i){
+		this(10.3);
+		sysout("int arg constructor");
+		}
+	Test(double d){
+		sysout("double arg constructor");
+		}
+	}
+
+public static void main(String[] args){
+	Test t = new Test();
+	}
+output:->
+double arg constructor
+int arg constructor
+no arg constructor
+
+
+public static void main(String[] args){
+	Test t = new Test(19);
+	}
+output:->
+double arg constructor
+int arg constructor
+
+public static void main(String[] args){
+	Test t = new Test(19.4);
+	}
+output:->
+double arg constructor
+
+Inheritance with Constructor:-> for constructors inheritance and overriding concepts are not applicable but overloading
+concept is applicable.every class in java including abstract class can contain constructors but interface can not contain
+constructors.
+
+case-I:-> recursive method call is a runtime exception saying stackoverflow error.but in our program if there is chance of
+recursive constructor invocation then the code won't compile and we will get compile time error.
+class Test {
+	Test(){
+		this(10);
+		}
+    Test(int i){
+    	this();
+    	}
+    public static void main(String args[]){
+    	sysout("Hello");
+    }
+ }
+
+ class Test {
+ 	p s v m1(){
+ 		m2();
+ 	}
+ 	p s v m2(){
+ 		m1();
+ 	}
+ 	p s v main(String args[]){
+ 		m1();
+ 		sysout("Hello");
+ 	}
+ }
+
+
+case-II:->
+i.if parent class contains any argument constructor then while writing child classes we have to take special care with
+respect to constructors.
+ii. whenever we are writing any argument constructor it is highly recomended to write no arg constructor also.
+
+class p {
+}
+class c extends p{
+}
+//valid
+
+
+class p {
+ p(){
+ }
+}
+class c extends p{
+}
+//valid
+class p {
+	p(int i){
+	}
+}
+class c extends p{
+}
+//invalid
+
+case-III:-> if parent class constructor throws any checked exception compulsary child class constructor should throw
+the same checked excepiton or it's parent otherwise the code won't compile.
+
+class p {
+	p() throws IOExcepiton{
+	}
+}
+class c extends p{
+	c()  {
+		super();
+	}
+}
+// it will throws unrepoted exception
+
+
+
+class p {
+	p() throws IOExcepiton{
+	}
+}
+class c extends p{
+	c() throws IOException {
+		super();
+	}
+}
+=========================================================================================================
+Singleton Classes:-> for any java class if we are allowed to create only one object such type of class is called singleton
+class.
+Example:->
+Runtime,BusinessDelegate,ServiceLocator etc
+
+Advantage:->
+-> if several people have same requirement then it is not recomended to create a separate object for every requirement.
+we have to create only one object and we can re-use same object for every simillar requirement so that performance and
+memory utilization will be improved.this is the cental idea of singleton classes.
+
+Example:->
+Runtime r1 = Runtime.getRuntime();
+Runtime r2 = Runtime.getRuntime();
+Runtime rn = Runtime.getRuntime();
+
+How to create our own singleton classes?
+-> there are two approach to create singleton classes
+i. private constructor
+
+class Test {
+	private static Test t = new Test();
+	private Test(){
+	}
+	public static Test getTest(){
+		return t;
+	}
+}
+
+Test t1 = Test.getTest();
+Test t2 = Test.getTest();
+Test tn = Test.getTest();
+
+ii.
+class Test {
+	private static Test t = null;
+	private Test(){
+	}
+	public static Test getTest(){
+		if(t == null){
+			t = new Test();
+		}
+		return t;
+	}
+}
+
+Test t1 = Test.getTest();
+Test t2 = Test.getTest();
+Test tn = Test.getTest();
+
+============================================================================================================
