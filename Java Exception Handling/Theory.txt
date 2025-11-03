@@ -1,0 +1,188 @@
+Customize Exception Handling By Using Try Catch:-> it is highly recommended to handle exception.the code
+which may rise an exception is called risked code and we have to define that code inside try block and
+corresponding handling code we have to define inside catch block.
+try{
+riskey code
+}
+catch(Exception e){
+handling code
+}
+
+
+
+Control Flow in Try Catch:->
+
+try{
+	Statement1
+	Statement2
+	Statement3
+}
+catch(Exception e){
+	Statement4
+}
+Statement5
+
+case1:-> if there is no exception
+Statement1
+Statement2
+Statement3
+Statement5
+normal termination
+
+case2:-> if exception rise at statement 2 and corresponding catch block match then
+Statement1
+Statement4
+Statement5
+normal termination
+
+case3:-> if an exception rise at statement 2 and corresponding catch block not match then
+Statement1
+abnormal termination
+
+case4:-> if an exception rise at statement 4 or statement 5 then it always abnormal termination.
+
+Note:->
+-> Within the try block if anywhere an exception rise at then rest of the try block won't be executed
+even though we handle exception hence within the try block we have to take only risky code and length
+of try block should be as less as possible.
+-> In addition to try block there may be a chance of rising an exception inside catch and finally blocks.
+-> if any statement which is not part of try block and rises an exception then it is always abnormal
+termination.
+
+throwable class defines the following methods to print exception information:->:->
+e.printStackTrace()
+e.getMessage()
+e.toString()
+
+Note:-> Default exception handler use printStackTrace method by default.
+
+Try with multiple catch block:-> the way of handling an exception is varied from exception to exception
+hence for every exception type it is highly recommended to take separate catch block that is try with
+the multiple catch block is always possible and recommended to use.
+if try with multiple catch block present then order of catch blocks is very important. we have to take
+child first and then parent otherwise we will get compile time error saying Exception XXX has already
+been caught.
+=================================================================================================================
+
+final:-> final is a modifier applicable for classes methods and variables.if a class declared as
+final then we can't extend that class that is we can't create child class for that class that is
+inheritance is not possible for final classes.
+if a method is final then we can't override that method in the child class.if a variable declared
+as final then we can't perform reassignment for that variable.
+
+Finally:-> it is a block always associated with try catch to maintain cleanup code. the speciality of
+finally block is it will be execute always irrespective of whether exception is raised or not raised or
+handle or not handle.
+
+Finalize:-> it is a method always invoked by garbage collector just before destroying an object to perform
+cleanup activities.once a finalize method completes immediately garbage collector destroys that object.
+
+Note:-> Finally block is responsible to perform cleanup activities related to try block that is whatever
+resources we open as the part of try block will be closed inside finally block.
+whereas finalize method is responsible to perform cleanup activities related to object that is whatever
+resources associated with object will be de-allocated before destroying an object by using finalize
+method.
+
+Various Combinations of try catch finally:-> try catch finally order important. whenever we are writing
+try compulsory we should write either catch or finally otherwise we will get compile time error that is
+try without catch or finally is invalid.whenever we are writing catch block compulsory try block must
+be required that is catch without try is invalid.whenever we are writing finally block compulsory we
+should write try block that is finally without try is invalid. inside try catch finally block we can't
+declare try catch and finally blocks that is nesting of try catch finally is allowed.for try catch and
+finally blocks curly braces are mandatory.
+==========================================================================================================
+
+Throw:-> Sometimes we can create exception object explicitly we can handover to the JVM manually for this
+we have to use throw keyword. hence the main objective of throw keyword is to handover our created
+exception to the JVM manually.
+
+Note:-> best use of throw keyword is for user-defined exception or customized exception.
+
+Case1:-> throw e if e refers null then we will get null pointer exception.
+Case2:-> after throw statement we are not allowed to write any statement directly otherwise we will get
+compile time error saying unreachable statement.
+Case3:-> we can use throw keyword only for throwable types.if we are trying to use for normal java
+objects we will get compile time error saying incompatible types.
+
+Throws:-> In our program if there is possibility of rising checked exception then compulsory we should
+handle that checked exception otherwise we will get compile time error saying unreported exception XXX
+must be caught or declared to be thrown.we can handle this compile time error by using the following two
+ways.
+i. By using try catch
+ii. By using Throws keyword
+
+we can use throws keyword to delegate responsibility of exception handling to the caller(it may be another
+method or JVM) then caller method is responsible to handle that exception.
+
+throws keyword requires only for checked exceptions and usage of throws keyword for unchecked exceptions there
+is no use or impact. throws keyword requires only to convince compiler and usage of throws keyword doesn't
+prevent abnormal termination of the program.
+
+Note:-> it is recommended to use try catch over throws keyword.
+
+Case1:-> we can use throws keyword for methods and constructors but not for classes.
+Case2:-> we can use throws keyword only for throwable types if we are trying to use for normal java classes
+then we will get compile time error saying incompatible types.
+Case3:-> within the try block if there is no chance of rising an exception then we can't
+write catch block for that exception.otherwise we will get compile time error saying
+Exception XXX is never thrown in body of corresponding try statement but this rule is
+applicable only for fully checked exception.
+===============================================================================================================
+
+sometimes to meet programming requirement we can define our own exceptions such type
+of exception are called customized or user defined exception.
+
+Top 10 Exception:-> based on the person who is rising an exception all exception are
+divided into 2 categories.
+i.JVM Exception
+ii. Programmatic Exception
+
+JVM Exception:-> The exception which are rise automatically by JVM whenever a particular
+event occur are called JVM Exceptions.example arithmetic exception,null pointer exception,
+etc.
+
+Programmatic Exception:-> The exceptions which are raised explicitly either by programmer
+or by API Developer to indicate that something goes wrong are called programmatic exception.
+for example TooOldException,IllegalArgumentException etc.
+
+i.ArrayIndexOutOfBoundException:-> it is the child class of runtime exception and hence
+it is  unchecked. raised automatically by JVM whenever we are trying access array element
+with the out of range index.
+
+ii. NullPointerException:-> it is the child class of runtime exception and hence it is
+unchecked.rised automatically by JVM whenever we are trying to perform any operation on
+null.
+
+iii. ClassCastException:-> it is the  child class of runtime exception and hence it is
+unchecked.rised automatically by JVM whenever we are trying to type cast parent object
+to child type.
+
+iv. StackOverflowError:-> it is the child class of error hence it is unchecked.rised automatically
+by JVM whenever we are trying to perform recursive method call.
+
+v. NoClassDefFoundError:-> it is the child class of erro hence it is unchecked. rised automatically
+by JVM whenever JVM unable to find required .class file.
+
+vi. ExceptionInInitializerError:-> it is the child class of error hence it is unchecked.rised
+automatically by JVM if any exception occur while executing static variable assignment and
+static blocks.
+
+vii. IllegalArgumentException:-> it is the child class of runtime exception and hence it is unchecked.
+rised explictly either by programmer or by API Developer to indicate that method has been invoked
+with illegal argument.example the valid range of thread priority
+
+viii.NumberFormatException:-> it is the direct child class of illegalargument exception which is the
+child class of runtime exception and hence it is unchecked.rised explictly either by programmer or
+by API Developer to indicate that we are trying to convert string to number and string is not
+properly formatted.
+
+ix. IllegalStateException:-> it is the child class of runtime exception and hence it is unchecked.
+rised explictly either by programmer or by API developer to indicate that a method has been invoked
+at wrong time.example,after starting of a thread we are not allowed to restart same theread again
+otherwise we will get runtime exception saying illegalthreadstate exception.
+
+x. AssertionsError:-> it is the child class of error and hence it is unchecked.rised explictly by
+the programmer or by API Developer to indicate that assert statement fails. if x is not greater 10
+then we will get runtime exception saying assertions error.
+=======================================================================================================
+
