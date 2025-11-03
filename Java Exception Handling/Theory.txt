@@ -2,7 +2,7 @@ Customize Exception Handling By Using Try Catch:-> it is highly recommended to h
 which may rise an exception is called risked code and we have to define that code inside try block and
 corresponding handling code we have to define inside catch block.
 try{
-riskey code
+risky code
 }
 catch(Exception e){
 handling code
