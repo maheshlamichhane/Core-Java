@@ -1412,7 +1412,7 @@ output:->
 
 ===========================================================================================================
 
-Main Method In Java:
+FileMain Method In Java:
 -> whether class contains main method or not and whether main method is declared according to requirement or not these things won't be checked by
 compiler. at runtime JVM is responsible to check these things.if JVM unable to find main method then we will get runtime exception saying nosuchmethoderror
 :main.
@@ -1515,7 +1515,7 @@ javac Test.java
 java Test
 
 output:->
-Main method not found.
+FileMain method not found.
 
 -> see the case by example
 
@@ -1539,7 +1539,7 @@ javac Test.java
 java Test
 
 output:->
-Main method not found.
+FileMain method not found.
 
 
 -> in 1.7 version JVM first check the main method but the order of the execution is same as 1.6.

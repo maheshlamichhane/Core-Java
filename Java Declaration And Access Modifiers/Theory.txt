@@ -42,7 +42,7 @@ public class C{
 ->
 class A {
 	public static void main(String[] args) {
-		System.out.println("A Class Main");
+		System.out.println("A Class FileMain");
 	}
 }
 class B {
@@ -52,7 +52,7 @@ class B {
 }
 class C {
 	public static void main(String[] args) {
-		System.out.println("C Class Main");
+		System.out.println("C Class FileMain");
 	}
 }
 class D {
@@ -61,13 +61,13 @@ class D {
 Javac Durga.java -> A.class,B.class,C.class,D.class
 
 Java A
-o/p:-> A Class Main
+o/p:-> A Class FileMain
 
 Java B
-o/p:-> B Class Main
+o/p:-> B Class FileMain
 
 Java C
-o/p:-> C Class Main
+o/p:-> C Class FileMain
 
 Java D
 o/p:-> RE:NoSuchMethodError:main

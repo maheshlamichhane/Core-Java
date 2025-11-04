@@ -1,0 +1,352 @@
+File Class-------------------------------->
+
+File file = new File("abc.txt") -> this line won't create any physical file first it will check is
+there any physical file named with abc.txt is available or not. if it is available then f simply refers
+that file. if it is not available then we are just creating java file object to represent the name
+abc.txt.
+
+Note: in UNIX everything is treated as a file. java file io concept is implemented based on UNIX
+operating system. hence java file object can be used to represent both files and directories.
+
+Constructors:->
+File f = new File(String name)
+-> creates a java file object to represent name of the file or directory in current working
+directory.
+
+File f = new File(String directory,String name)
+-> creates a java file object to represent name of the file or directory present in
+specified subdirectory.
+File f = new File(File subdir, String name)
+
+
+Important Methods Present in File class:->
+boolean exists() returns true if the specified file or directory available.
+boolean createNewFile() first this method will check whether the specified file
+is already available or not. if it is already available then this method returns false
+without creating any physical file. if the file is not already available then this method will creates
+a new file and returns true.
+boolean mkdir() same as create file method mechanism.
+boolean isFile() returns true if the specified file object pointing to physical file.
+boolean isDirectory() returns true if the specified file object pointing to physical directory.
+String[] list() this method returns the names of all files and sub directories present in
+specified directory.
+long length() returns no.of characters present in specified file.
+boolean delete() to delete specified file or directory
+============================================================================================================
+FileWriter Class:-> we can use file writer to write character data to the file.
+
+Constructor:->
+FileWriter fw = new FileWriter(String filename)
+FileWriter fw = new FileWriter(File f)
+FileWriter fw = new FileWriter(String filename,boolean append)
+FileWriter fw = new FileWriter(File f,boolean append)
+
+ Note:-> if the specified file is not already available then all above constructors will create that file.
+
+ Methods:->
+ write(int ch) to write single character to a file
+ write(char[] ch) to write an array of characters
+ write(String s) to write string to the file
+ flush() to give the guarantee that total data including last character will be returned to the file.
+ close() to close the writer
+
+ Note:- the main problem with the file writer is we have to insert line-separator \n manually which is varied from
+ system to system.it is difficult to the programmer. we can solve this problem by using BufferedWriter and PrintWriter
+ classes.
+
+ FileReader Class:->  We can use file reader to read character data from the file.
+
+Constructor:-
+FileReader fr = new FileReader(String name)
+FileReader fr = new FileReader(File f)
+
+Methods:->
+int read()
+int read(char[] ch) it reads ch array.it attempts to read n of characters into char array and returns no of characters
+copied from the file.
+void close()
+
+Note:-> by using file reader we can read data character by character which is not convenient to the programmer.
+
+Usage of file reader and filterer is not recommended because
+-> while writing data by file writer we have to insert lines seperator(\n) manually which is varied from system to system.
+it is difficult to the programmer.
+-> by using file reader we can read data character by character, which is not convenient to the programmer.
+
+to overcome these problems we should go for BufferedWriter and BufferedReader.
+============================================================================================================
+BufferedWriter:-> we can use buffer writer to write character data to the file.
+
+Constructors:->
+BufferedWriter bw = new BufferedWriter(Writer w )
+BufferedWriter bw = new BufferedWriter(Writer w,int buffersize)
+
+Note:- BufferedWriter can't communicate directly with the file it can communicate
+via some Writer object.
+also valid:->
+ BufferedWriter bw = new BufferedWriter(new FileWriter("abc.txt"))
+ BufferedWriter bw = new BufferedWriter(new BufferedWriter(new FileWriter("abc.txt")))
+
+ Methods:->
+ write(int ch)
+ write(char[] ch)
+ write(String s)
+ flush()
+ close()
+ newLine()
+
+ Note:-> whenever we are closing bufferedwriter automatically internal file writer
+ will be closed and we are not required to close explicitly.
+
+
+  BufferedReader:-> we can use bufferreader to read character data from the file.the main
+  advantage of bufferreader when compared with filereader is we can read data line by line
+  in addition to character by character.
+
+  Constructors:->
+  BufferedReader br = new BufferedReader(Reader r)
+  BufferedReader br = new BufferedReader(Reader r,int buffersize)
+
+  Note:-> bufferedreader  can't communicate directly with the file and it can't communicate
+  via some reader objects.
+
+  Methods:->
+  int read()
+  int read(char[] ch)
+  String readLine()
+  void close();
+=========================================================================================================
+
+FileReader Class:->  We can use file reader to read character data from the file.
+
+Constructor:-
+FileReader fr = new FileReader(String name)
+FileReader fr = new FileReader(File f)
+
+Methods:->
+int read()
+int read(char[] ch) it reads ch array.it attempts to read n of characters into char array and returns no of characters
+copied from the file.
+void close()
+
+Note:-> by using file reader we can read data character by character which is not convenient to the programmer.
+
+Usage of filereader and filewriter is not recomended because
+-> while writing data by file writer we have to insert lines seperator(\n) manually which is varied from system to system.
+it is difficult to the programmer.
+-> by using file reader we can read data character by character, which is not convenient to the programmer.
+
+to overcome these problems we should go for BufferedWriter and BufferedReader.
+
+🔍 3. How It Works Internally
+
+When you use:
+
+BufferedReader br = new BufferedReader(new FileReader("demo.txt"));
+
+
+Internally:
+
+The FileReader opens the file and reads characters from disk.
+
+The BufferedReader reads a chunk (e.g., 8192 characters) from the FileReader and keeps it in memory.
+
+When your code calls read(), BufferedReader returns characters from the memory buffer, not directly from disk.
+
+When the buffer runs out, it refills it by calling the underlying FileReader again.
+
+This means fewer I/O operations (which are slow) and faster execution.
+
+🧠 4. Analogy
+
+Think of it like drinking water:
+
+FileReader: You drink directly from the tap each time → slow.
+
+BufferedReader: You fill a jug (buffer) once, then pour from the jug as needed → much faster.
+
+Same for writing:
+
+FileWriter: Writes one character to disk at a time.
+
+BufferedWriter: Collects characters in memory first, then writes a batch to disk → more efficient.
+===========================================================================================================
+PrintWriter:->
+-> it is the most enhanced writer to write character data to the file.
+-> the main advantage of printwriter over file writer and buffer writer is we can writer
+any type of primitive data directly to the file.
+
+Constructors:->
+PrintWriter pw = new PrintWriter(String filename)
+PrintWriter pw = new PrintWriter(File f)
+PrintWriter pw = new PrintWriter(Writer w)
+
+Note: PrintWriter can communicate directly with the file and can communicate
+via some writer objects also.
+
+Methods:->
+write(int ch)
+write(String s)
+write(char[] ch)
+flush()
+close()
+
+print(char ch)
+print(int i)
+print(double d)
+print(boolean b)
+print(String s)
+
+println(char ch)
+println(int i)
+println(double d)
+println(boolean b)
+println(String s)
+
+Note:-> The most enhanced writer to write character data to the file is PrintWriter whereas the most enhanced reader
+to read character data from the file is BufferedReader.
+==============================================================================================================
+
+In general we can use readers and writers to handle character data(text data),whereas we can use streams to handle
+binary data(like images,video,pdf,audio etc).
+we can use outputstream to write binary data to the file,inputstream to read binary data from the file.
+=========================================================================================================
+
+Serialization:-> The process of writing state of an object to a file is called serialization.but strictly speaking
+it is the process of converting an object from java supported form into either file supported form or network
+supported form.
+by using fileoutputstream and objectoutputstream classes we can implement serialization.
+
+Deserialization:-> The process of reading state of an object from a file is called deserialization.but strictly
+speaking it is the process of converting an object from either file supported form or network supported form into
+java supported form.
+by using fileinputstream and objectinputstream classes we can implement deserialization.
+
+Note: we can serialize only serializable objects.an object is said to be serializable if and only if the corresponding
+implements serializable interface.serializable interface presents in java.io package and it doesn't contain any
+methods.it is a marker interface.
+if we are trying to serialize non-serializable object then we will get runtime exception saying notserializable
+exception.
+
+Transient Keyword:-> transient modifier applicable only for variable but not for methods and classes.at the time of
+serialization if we don't want to save the value of a particular variable to meet security constraints then we
+should declare that variable as transient.
+while performing serialization JVM ignores original value of transient variable and save default value to the file.
+hence transient means not to serialize.
+
+transient vs static:-> static variable won't participate in transient.static variable is not part of object state
+and hence it won't participate in serialization.due to this declaring static variable as transient there is no use.
+
+final vs transient:-> final variables will be participated in serialization directly by the value hence declaring a
+final variable as transient there is no impact.
+
+Note:-> if multiple objects are serialized into a single file then those objects can be deserialize on the order
+they are serialized means first objects get deserialize first and last object deserialize at last.
+
+we can serialize any no of objects to the file but in which order we serialized in the same order only we have to
+deserialize that is order of objects is important in serialization.
+if we don't know order of objects in serialization.
+
+
+Object Graph Serialization:-> whenever we are serializing an object,the set of all objects which are reachable
+from that objects will be serialized automatically. this group of objects is nothing but object graph.
+in object graph every object should be serializable.if at least is not serializable then we will get runtime
+exception saying not serializable exception.
+
+Customized Serialization:-> During default serialization there may be a chance of loss of information because of
+transient keyword.to recover this loss of information we should go for customized serialization.we can implement
+customized serialization using two methods
+private void writeObject(ObjectOutputStream os)  throws Exception -> this method will be executed automatically at the time of serialization.
+private void readObject(ObjectInputStream is) throws Exception -> this method will be executed automatically at the time of deserialization.
+
+Note:
+-> the above methods are callback methods because these are executed automatically by the JVM.
+-> while performing which object serialization we have to do extra work in the corresponding class we have to
+define above methods.for example, while performing account object serialization if we required to do extra work in
+the account class we have to define above methods.
+
+before serialization and after serialization account object can provide proper username and password.
+Note:-programmer can't call private methods directly from outside of the class but JVM can call private methods
+directly from outside of the class.
+
+Inheritance Serialization:->
+-> Even though child class doesn't implement serializable we can serialize child class object if parents class
+implements serializable interface that is serializable nature is inheriting from parent to child hence if parent
+is serializable then by default every child is serializable.
+-> EvenThough parent class doesn't implements serializable we can serialize child class object if child class implements
+serializable interface that is to serialize child class object parent class need not be serializable.
+
+-> At the time of serialization JVM will check is any variable inheriting from non-serializable parent or not.if any
+variable inheriting from non-serializable parent then JVM ignores original value and save default value to the file.
+-> At the time of deserialization JVM will check is any parent class non-serializable or not. if any parent class is non
+serializable then JVM will execute instance control flow in every non-serializable parent and share it's instance variable
+to the current object.
+-> while executing instance control flow of non-serializable parent JVM will always call no arg constructor hence
+every non-serializable class should compulsory contain no-arg constructor.it may be default constructor generated by
+compiler or customized constructor explicitly provided by programmer otherwise we will get runtime exception saying
+invalid class exception.
+
+
+Note:-> Object class doesn't implement serializable interface.
+
+Externalization:->
+-> In serialization everything takes care by JVM and the programmer doesnt have any control.
+-> In serialization it is always possible to save total object to the file and it is not possible to save part of the
+object,which may creates performance problems.
+-> To overcome this problem we should go for externalization.
+-> The main advantage of externalization over serialization is everything takes care by programmer and JVM doesn't have
+any control.based on our requirement we can save either total object or part of the object, which improves performance of the
+system.
+->To provide externalizable ability for any java object compulsory the corresponding class should implement externalizable
+interface.externalizable interface is the child interface of serializable only.externalizable interface defines two methods
+writeExternal()
+readExternal()
+these method will execute automatically at time of serialization and de-serialization.but strctly
+speaking at the time of deserialization JVM will create a separate new object by executing public
+no arg constructor.on that object JVM will call readExteranl method.hence every externalizable
+implemented class should compulsary contain public no arg constructor otherwise we will get runtime exception
+saying InavlidClassException.
+Note:serializable class should not compulsary have no arg constructor.JVM creates explicitly.transient
+keyword doesn't play any role in externalization.
+Note:- Externalizable is a child interface of serializable.it also comes from 1.1 version.
+
+Serialization Vs Externalization:->
+-> it is meant for default serialization vs it is meant for customized serialization.
+-> here everything takes care by JVM and programmer doesn't have any control vs here everything takes care by programmer and
+JVM doesn't have any control.
+-> in this case it is always possible to save total object to the file and it is not posiible to save part of the object vs
+based on requirement we can save either total object or part of the object.
+-> relatively performance is low vs relatively performance is high
+-> it is the best choice if we want to save total object to the file vs it is the best choice if we want to save part of the
+object to the file.
+-> serializable interface doesn't contain any methods and it is a marker interface vs externalizable interface contain two
+methods and it is not a marker interface.
+-> serializable implemented class not required to contain public no arg constructor vs externalizable implemented class
+should compulsary contain public no-arg constructor otherwise we will get runtime exception saying InavalidClass exception.
+-> transient keyword will play role in serialization vs transient won't play any role in externalization.
+
+
+SerialVersion UID:->
+-> in serialization both sender and receiver need not be same person,need not to use same mission and need not be from the
+same location.the persons may be different,the missions may be different and locations may be different.
+-> In serialization both sender and receiver should have .class file at the beginning only just state of object is travelling
+from sender to location.
+-> At the time of serialization with every object sender side JVM will save unique identifier.JVM is responsible to generate
+this unique identifier based on .class file.
+-> At the time of deserialization receiver side JVM will compare unique identifier associated with the object with local class
+unique identifier if both are matched then only deserialization will be performed otherwise we will get runtime exception
+saying invalid class exception. this unique identifier nothing but SerialVersion UID.
+
+Problems of depending on default SerialVersion UID generated by JVM :->
+-> Both sender and receiver should use same JVM with respect to vendor,platfor,version also otherwise receiver unable to
+de-serialize because of different serial version UID.
+-> Both sender and receiver should use same .class file version.after serialization if there is any change in .class file
+at receiver side then receiver unable to de-serialized.
+-> To generate serial version uid internally JVM may used complex algorithm which may create performance problem.
+-> If we provide serial version uid to class file then performance of the program will be increased.
+
+we can solve above problem by considering our own serialversion uid.we can configure our own serial version
+uid as follows.
+private static final long serialVersionUID = 1L;
+=============================================================================================================
+
