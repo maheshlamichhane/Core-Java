@@ -374,7 +374,7 @@ Arrays: An array is a indexed collections of fixed numbers of homogeneous data e
 ============================================================================================================
 Set Interface:-> set is child interface of collection. if we want to represent a group of individual objects as a single
 entity where duplicates are not allowed and insertion order not preserved.set interface doesn't contain any new methods
-and we have to use only collection interface methods.implementation class of set interface are
+and we have to use only collection interface methods. Implementation class of set interface are
 
 i.HashSet:-
 -> the underlying data structure of HashSet is hash table.
@@ -434,7 +434,7 @@ Methods:->
 floor(e) -> returns highest element which is <=e
 lower(e) -> returns highest element which is <e
 ceiling(e) -> returns lower element which is >=e
-higher(e) -> returns loweset element which is >e
+higher(e) -> returns lowest element which is >e
 pollFirst() -> remove and return first element
 pollLast() -> remove and return last element
 descendingSet() -> it returns NavigableSet in reverse order
@@ -487,7 +487,7 @@ public int compare(Object obj1,Object obj2)
 
 public boolean equals(Object obj)
 
-whenever we are implementing comparator interface compulsary we should provide implementation only for compare method
+whenever we are implementing comparator interface compulsory we should provide implementation only for compare method
 and we are not required to provide implementation for equals method because it is already available to our class from
 Object class through inheritance.
 ==============================================================================================================
