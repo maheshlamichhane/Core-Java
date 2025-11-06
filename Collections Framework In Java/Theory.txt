@@ -394,7 +394,7 @@ HashSet set = new HashSet(); it creates empty hashset objects with default initi
 HashSet h = new HashSet(int initial_capacity); it is empty hashset object with the specified initial capacity and default
 fill ration 0.75.
 HashSet h = new HashSet(int initial_capacity,float fill_ratio);
-HashSet h = new HashSet(Collection c); creates an equvalent hashset for the given collection.
+HashSet h = new HashSet(Collection c); creates an equivalent hashset for the given collection.
 
 
 Fill Ration/Load Factor:->  After filling how much ratio a new hashset object will be created,this ratio is called fill
@@ -676,7 +676,7 @@ void load(InputStream is)  to load properties from properties file into java pro
 void store(OutputStream os,String comment) to store properties from java properties object into
 properties file.
 ==============================================================================================================
-Queue:-> 1.5 version enhancements(queue interface).it is the child interface of collection,list,set.if we want
+Queue:-> 1.5 version enhancements(queue interface).it is the child interface of collection.if we want
 to represent a group of individual objects prior to processing.then we should go for queue.for example before
 sending sms message all mobile numbers we have to store all mobile numbers in some data structures.in which
 order we added mobile numbers in the same order only message should be delivered for this FIFO requirement
@@ -716,6 +716,180 @@ PriorityQueue q = new PriorityQueue(SortedSet s);
 PriorityQueue q = new PriorityQueue(Collection c);
 
 Note: Some platforms won't provide proper support for thread priorities and priority queues.
+Priority Queue Example:
+  // Integer priority queue (min-heap by default)
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+
+        pq.add(30);
+        pq.add(10);
+        pq.add(20);
+        pq.add(5);
+
+        System.out.println("PriorityQueue elements in priority order:");
+        while (!pq.isEmpty()) {
+            System.out.println(pq.poll());
+        }
+
+
+ ArrayDeque Overview
+ -> Package: java.util
+ -> Type: Class implementing Deque interface
+ Behavior:
+ -> Double-ended queue: can insert/remove elements from both ends
+ -> Resizable array (faster than LinkedList for deque operations)
+ -> Not thread-safe (use ConcurrentLinkedDeque for thread safety)
+ Key Methods (Deque operations):
+ Method	Description
+ addFirst(E e) / offerFirst(E e)	Insert at front
+ addLast(E e) / offerLast(E e)	Insert at end
+ removeFirst() / pollFirst()	Remove from front
+ removeLast() / pollLast()	Remove from end
+ getFirst() / peekFirst()	Get element from front
+ getLast() / peekLast()	Get element from end
+ push(E e)	Insert at front (stack behavior)
+ pop()	Remove from front (stack behavior)
+
+ Example:
+  Deque<String> deque = new ArrayDeque<>();
+
+         // Insert at both ends
+         deque.addFirst("A");  // Front
+         deque.addLast("B");   // End
+         deque.addFirst("C");  // Front
+
+         System.out.println("Deque elements:");
+         for (String s : deque) {
+             System.out.println(s);
+         }
+
+         // Remove elements from both ends
+         System.out.println("Removed from front: " + deque.pollFirst());
+         System.out.println("Removed from end: " + deque.pollLast());
+
+         System.out.println("Deque after removal: " + deque);
+
+Overview: ArrayBlockingQueue
+-> Package: java.util.concurrent
+-> Type: Class implementing BlockingQueue<E>
+-> Structure: Fixed-size array-based queue
+-> Thread-Safety: Thread-safe, designed for concurrent producer-consumer scenarios
+-> Ordering: FIFO (First-In-First-Out)
+
+Blocking behavior:
+-> If queue is full, producer threads wait until space becomes available.
+-> If queue is empty, consumer threads wait until elements are available.
+
+Constructors:
+ArrayBlockingQueue(int capacity)
+ArrayBlockingQueue(int capacity, boolean fair)
+
+
+-> capacity: Maximum number of elements
+
+fair: If true, access is granted in FIFO order to waiting threads
+
+Common methods:
+
+Method	Description
+put(E e)	Inserts element, blocks if queue is full
+take()	Retrieves and removes head, blocks if queue is empty
+offer(E e)	Inserts element, returns false if full
+poll()	Retrieves and removes head, returns null if empty
+peek()	Retrieves head without removing
+
+ ArrayBlockingQueue<Integer> queue = new ArrayBlockingQueue<>(5);
+
+        // Producer Thread
+        Thread producer = new Thread(() -> {
+            for (int i = 1; i <= 10; i++) {
+                try {
+                    queue.put(i);
+                    System.out.println("Produced: " + i);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        // Consumer Thread
+        Thread consumer = new Thread(() -> {
+            for (int i = 1; i <= 10; i++) {
+                try {
+                    int val = queue.take();
+                    System.out.println("Consumed: " + val);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        producer.start();
+        consumer.start();
+
+
+
+Overview: LinkedBlockingQueue
+
+Package: java.util.concurrent
+
+Type: Class implementing BlockingQueue<E>
+
+Structure: Linked nodes (linked list)
+
+Thread-Safety: Thread-safe, supports multiple producers and consumers concurrently
+
+Ordering: FIFO (First-In-First-Out)
+
+Capacity:
+
+Optional fixed capacity (LinkedBlockingQueue(int capacity))
+
+Default Integer.MAX_VALUE (almost unbounded) if not specified
+
+Blocking behavior:
+
+If queue is full, producers block
+
+If queue is empty, consumers block
+
+Advantages over ArrayBlockingQueue:
+
+Can be bounded or unbounded
+
+Separate locks for put and take operations → better concurrent throughput
+
+Internally uses linked nodes, so no resizing issues like arrays
+
+LinkedBlockingQueue<Integer> queue = new LinkedBlockingQueue<>(5);
+
+        // Producer
+        Thread producer = new Thread(() -> {
+            for (int i = 1; i <= 10; i++) {
+                try {
+                    queue.put(i);
+                    System.out.println("Produced: " + i);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        // Consumer
+        Thread consumer = new Thread(() -> {
+            for (int i = 1; i <= 10; i++) {
+                try {
+                    int val = queue.take();
+                    System.out.println("Consumed: " + val);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        producer.start();
+        consumer.start();
+    }
+
 ============================================================================================================
 
 Collections Class:-> Collections class defines several utility methods for collection objects like sorting,searching,reversing,

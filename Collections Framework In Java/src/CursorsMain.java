@@ -9,7 +9,8 @@ public class CursorsMain {
         vector.add("Nabin");
         vector.add("Akash");
 
-        Enumeration<String> en = vector.elements(); // get enumeration
+        Enumeration<String> en = vector.elements();
+//        Enumeration<String> en2 = Collections.enumeration(vector);
         System.out.println("Using Enumeration:");
         while (en.hasMoreElements()) {
             System.out.println(en.nextElement());
@@ -59,7 +60,6 @@ public class CursorsMain {
                 listIt.set("Rohan");
             }
         }
-
         System.out.println("After modification: " + list);
     }
 }
