@@ -1,0 +1,371 @@
+Garbage Collection:->
+-> in old languages like c++ programmer is responsible to create new object and to destroy useless
+objects.usually programmer taking very much care while creating objects and neglecting destruction
+of useless objects because of his negligence at certain point for creation of new object sufficient
+memory may not be available(because total memory filled with useless objects only).and total
+application will be down with memory problems hence out of memory error is very common problem in
+old languages like c++.
+
+-> but in java programmer is responsible only for creation of objects and programmer is not
+responsible to destroy useless objects.sun people provided one assistant to destroy useless objects
+this assistant is always running in the background(daemon thread) and destroy useless objects.just
+because of this assistant the chance of failing java program with memory problems is very very
+low.this assistant is nothing but garbage collector.
+
+-> hence the main objective of garbage collector is to destroy useless objects.
+
+====================================================================================================
+
+The ways to make object eligible for GC:-> even though programmer is not responsible to destroy
+useless objects it is highly recommended to make an object eligible for GC if it is no longer
+required.
+an object is said to be eligible for GC if and only if it doesn't contain any reference variable.
+the following are various ways to make an object eligible for GC.
+
+case-I:-> nullifying the reference variable
+-> if an object no longer required then assign null to all it's reference variables then that object
+automatically eligible for garbage collection.this approach is nothing but nullifying the reference
+variable.
+Example:
+Student s1 = new Student();
+Student s2 = new Student();
+//no object are eligible for garbage collection
+.
+.
+s1 = null;
+//one object eligible for garbage collection
+.
+.
+.
+s2 = null;
+// two object eligible for garbage collection
+
+case-II:-> Reassigning the reference variable
+-> if an object no longer required then reassign it's reference variable to some other objects
+then old object by default eligible for garbage collection.
+
+
+
+
+
+Student s1 = new Student();
+Student s2 = new Student();
+//no object eligible for garbage collection
+.
+.
+.
+s1 = new Student();
+// one object eligible for garbage collection
+.
+.
+.
+s2 = s1;
+// two object eligilbe for garbage collection
+
+
+case-III:-> Objects created inside a method
+-> the objects which are created inside a method are by default eligible for GC once method completes.
+Example1:
+class Test{
+	public static void main(String args[]){
+		m1();
+	}
+
+	public static void m1(){
+		Student s1 = new Student();
+		Student s2 = new Student();
+	}
+}
+//after completion of m1 method both 2 objects eligible for GC.
+
+Example2:->
+class Test{
+	public static void main(String args[]){
+		Student s = m1();
+	}
+
+	public static Student m1(){
+		Student s1 =  new Student();
+		Student s2 = new Student();
+		return s1;
+	}
+}
+//here only s2 object is eligible for GC.
+
+Example3:->
+class Test{
+	public static void main(String args[]){
+		m1();
+	}
+
+	public static Student m1(){
+		Student s1 =  new Student();
+		Student s2 = new Student();
+		return s1;
+	}
+}
+//here 2 object eligible for GC
+
+
+Example4:->
+
+class Test{
+	static student s;
+	public static void main(String args[]){
+		m1();
+	}
+
+	public static Student m1(){
+		s =  new Student();
+		Student s1 = new student();
+	}
+}
+//only one object s1 object is eligible for GC.
+
+Case-IV:-> Island of Isolation
+
+class Test{
+	Test i;
+
+	public static void main(String args[]){
+		Test t1 = new Test();
+		Test t2 = new Test();
+		Test t3 = new Test();
+		//no object eligible for GC
+
+
+		t1.i = t2;
+		t2.i = t3;
+		t3.i = t1;
+		//no object eligible for GC
+
+		t1 = null;
+		//no object eligible for GC
+
+		t2 = null;
+		//no object eligible for GC
+
+		t3 = null;
+		//all 3 object are eligible for GC
+	}
+}
+
+Note:->
+-> if an object doesn't contain any reference variable then it is eligible for garbage collection always.
+-> even though object having references sometimes it is eligible for garbage collection(if all references
+are internal references).example island of isolation.
+
+=============================================================================================================
+
+The ways for requesting JVM to run GC:-> once we made an object eligible GC it may not be destroyed immediate
+ly by garbage collector.whenever JVM run GC then only the object will be destroyed but when exactly JVM
+run garbage collector we can't expect it is varied from JVM to JVM.instead of waiting until JVM run GC
+we can request JVM to run garbage collector programmatically but whether JVM accept our request or not there
+is no guarantee but most of the times JVM accept our request.the following are two ways for requesting JVM
+to run a garbage collector.
+
+i. By using System class
+-> System class contains static method gc for this purpose.
+System.gc();
+
+ii. By using Runtime class
+-> java application can communicate with JVM by using Runtime object.
+-> Runtime class present in java.lang package and it is a singleton class.
+-> we can create runtime object by using Runtime.getRuntime method.
+
+Example:
+public class Test {
+
+	public static void main(String[] args) {
+
+		Runtime r = Runtime.getRuntime();
+		System.out.println("Total Heap Memory="+r.totalMemory());
+		System.out.println("Free Heap Memory="+r.freeMemory());
+		r.gc();
+
+	}
+
+}
+
+Note:->
+-> gc method present in system class is a static method whereas gc method present in runtime class
+is instance method.
+-> it is convenient to use System class gc method when compared with runtime class gc method.
+-> with respect to performance it is highly recommended to use runtime class gc method when compared with
+system class gc method because system class gc method internally calls runtime class gc method.
+
+class Sytem{
+	public static void gc(){
+		Runtime.getRuntime().gc();
+	}
+}
+
+
+
+=============================================================================================================
+Finalization:->
+-> just before destroying an object garbage collector calls finalize method to perform cleanup activities.
+-> once finalize method completes automatically garbage collector destroys that object.
+-> finalize method present in object class with the following declaration.
+protected void finalize throws Throwable
+-> we can override finalize method in our class to define our own cleanup activities.
+
+Loopholes:
+
+case-I:-> just before destroying an object garbage collector calls finalize method on the object which is eligible
+for gc then the corresponding class finalize method will be executed.for example string object eligible for gc
+then string class finalize method will be executed but not Test class finalize method.
+
+
+class Test{
+	public static void main(String args[]){
+		String s = new String("durga");
+		s = null;
+		System.gc();
+		System.out.println("End of main");
+	}
+
+	public void finalize(){
+		System.out.println("finalize method called");
+	}
+}
+
+output:
+End of main
+
+-> here String class finalize method will be called not Test class finalization method.if we replace string object
+with test class object then output may be
+End of main
+finalize method classed
+or
+finalize method called
+End of main
+or
+End of main
+
+
+
+Case-II:-> based on our requirement we can call finalize method explicitly then it will be executed just like a
+normal method call and object won't be destroyed.
+class Test {
+	public static void main(String args[]){
+		Test t = new Test();
+		t.finalize();
+		t.finalize();
+		t = null;
+		System.gc();
+		System.out.println("End of Main");
+	}
+
+	public void finalize(){
+		System.out.println("Finalize Method Called");
+	}
+}
+
+output:
+Finalize Method Called
+Finalize Method Called
+End of Main
+Finalize Method Called
+
+note:-> last finalize method called by garbage collector.if we are calling finalize method explicitly then it will
+be executed like a normal method call and object won't destroyed.if garbage collector calls finalize method then
+object will be destroyed.
+
+-> init,service and destroy methods are considered as lifecycle method of servlet.just before destroying servlet
+object we container calls destroy method to perform cleanup activities.but based on our requirement we can destroy
+method from init and service methods then destroy method will be executed just like a normal method call and servlet
+object won't be destroyed.
+
+case-III:-> even though object eligible for gc multiple times but garbage collector calls finalize method only
+once.
+Example:->
+public class FinalizeDemo {
+
+	static FinalizeDemo s;
+
+	public static void main(String[] args) throws InterruptedException {
+
+		FinalizeDemo d = new FinalizeDemo();
+		System.out.println(d.hashCode());
+		d = null;
+		System.gc();
+		Thread.sleep(5000);
+		System.out.println(d.hashCode());
+
+		s = null;
+		System.gc();
+		Thread.sleep(100000);
+		System.out.println("End of main");
+	}
+
+	public void finalize() {
+		System.out.println("finalize method called");
+		s = this;
+	}
+
+}
+
+
+-> in the above program even though object eligible for gc two times but garbage collector calls finalize method
+only once.
+
+
+Case-IV:-> we can't expect exact behaviour of garbage collector it is varied from JVM to JVM hence for the following
+questions we can't provide exact answers.
+i. when exactly JVM runs garbage collector?
+ii. in which order garbage collector identifies eligible objects?
+iii. in which order garbage collector destroys eligible objects?
+iv. whether garbage collector destroys all eligible objects or not?
+v. what is algorithm followed by garbage collector?
+
+Proof:
+public class Test {
+
+	public static int count = 0;
+
+	public static void main(String[] args) {
+
+		for(int i = 0; i <= 1000000; i++) {
+			Test t = new Test();
+			t=null;
+		}
+		System.out.println("End of main");
+
+	}
+
+	public void finalize() {
+		++count;
+		System.out.println("finalize method called:"+count);
+	}
+
+}
+
+Note:->
+-> whenever programs runs with low memory then JVM runs garbage collector but we can't expect exactly at what
+time.
+-> most of the garbage collector follow standard algorithm mark and sweep algorithm.it doesn't mean every
+garbage collector follow the same algorithm.
+
+
+
+Case-V:-> Memory Leaks:-> the objects which are not using in our program and which are not eligible for gc such
+type of useless objects are called memory leaks.in our program if memory leaks present then the program will be
+terminated by rising out of memory error.
+hence if an object no longer required it is highly recommended to make that object eligible for gc.
+Example:->
+Test t = new Test();
+.
+.
+.
+.
+.
+.
+Test t1000 = new Test();
+
+-> the following are various third party memory management tool to identify memory leaks.
+HP OVO
+HP J Meter
+JProbe
+Patrol
+IBM Tivoli
