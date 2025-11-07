@@ -1,0 +1,334 @@
+java.util.concurrent Package in Java:
+-> In multi-threaded applications, multiple threads often need to access and modify shared data structures
+like lists, maps, and sets. If not handled properly, this can lead to data inconsistency, poor performance,
+ or runtime errors.
+-> To address these challenges, Java introduced the java.util.concurrent package in JDK 1.5,
+ providing high-performance, thread-safe collections and utilities designed for concurrent environments.
+
+Problems with Traditional Collections:
+a) Not Thread-Safe
+->Traditional collection classes like ArrayList, HashMap, HashSet, etc., are not thread-safe.
+This means:If multiple threads access and modify these collections simultaneously,
+There can be data corruption or inconsistent results.
+Example:
+List<Integer> list = new ArrayList<>();
+// If two threads add/remove elements at the same time -> data inconsistency!
+So, traditional collections are unsafe for multi-threaded environments.
+
+b) Old Thread-Safe Collections Are Too Slow
+-> Before Java 1.5, Java provided some synchronized collections, such as:
+Vector (thread-safe version of ArrayList)
+Hashtable (thread-safe version of HashMap)
+Collections.synchronizedList(list)
+Collections.synchronizedSet(set)
+Collections.synchronizedMap(map)
+These classes are technically thread-safe, but performance-wise they are poor.
+Why?
+Because:
+-> Every operation (add, get, remove, even contains) is synchronized.That means only one thread can access
+the entire collection at a time.Even simple read operations block other threads.
+This causes:
+High waiting time for threads,
+Reduced concurrency,
+Poor scalability on multi-core systems.
+
+Example:
+List<Integer> list = Collections.synchronizedList(new ArrayList<>());
+// Even list.get(0) and list.add(10) cannot run in parallel.
+c) ConcurrentModificationException
+Another major problem with traditional collections is that they fail fast during concurrent modification.
+If one thread is iterating over a collection and another thread modifies it (adds or removes an element),
+the iterator immediately throws a ConcurrentModificationException.
+Example:
+List<Integer> list = new ArrayList<>();
+list.add(10); list.add(20); list.add(30);
+
+for (Integer i : list) { // Iteration
+    list.add(40);        // Modification by same or another thread
+}
+// => ConcurrentModificationException
+
+This behavior makes traditional collections unsafe for concurrent iterations.
+
+
+Non-Thread-Safe Collections:
+-> These are the standard, general-purpose collection classes that are not safe to use concurrently without
+external synchronization.
+-> Best performance in single-threaded use.
+-> Must be manually synchronized (e.g., using synchronized, lock, or mutex) if accessed by multiple threads.
+
+Category	Common Interfaces	Typical Implementations
+List	     List<T>	         ArrayList, LinkedList
+Set	         Set<T>	             HashSet, TreeSet
+Map	         Map<K,V>	         HashMap, TreeMap
+Queue	     Queue<T>	         ArrayDeque
+
+
+Synchronized (Thread-Safe via Locking) Collections:
+-> These are wrapped or inherently synchronized versions of standard collections. Only one thread can
+access the collection at a time.
+
+Thread-safe via intrinsic or external locking:
+-> Simpler, but may have contention bottlenecks under high concurrency.
+Category	Common Interfaces	Typical Implementations
+List	    List<T>	            Collections.synchronizedList(...), Vector
+Map	        Map<K,V>	        Collections.synchronizedMap(...), Hashtable
+Set	        Set<T>	            Collections.synchronizedSet(...)
+
+Difference Between Traditional and Concurrent Collections:->
+-> Concurrent collections are always thread safe
+-> when compared with traditional thread safe collection performance is more because of different locking mechanism.
+-> while one thread interacting collection the other threads are allowed to modify collection in safe manner.
+
+hence concurrent collections never throw concurrentModificationException.the important concurrent classes are
+i. ConcurrentHashMap
+ii. CopyOnWriteArrayList
+iii. CopyOnWriteArraySet
+==============================================================================================================
+Map
+ConcurrentMap
+ConcurrentHashMap
+
+ConcurrentMap:-> it contains three methods
+i. putIfAbsent();
+ii. remove();
+iii. replace();
+
+Object putIfAbsent(Object key,Object value):->
+Example1:->
+m.put(101,"durga");
+m.put(101,"shive");
+sysout(m);
+
+output:->
+{101,shive}
+
+m.put(101,"durga");
+m.putIfAbsent(101,"shive");
+
+output:->
+{101,durga}
+
+boolean remove(Object key,Object value):->
+m.put(101,"durga");
+m.remove(101);
+
+output:->
+{}
+
+m.put(101,"durga");
+m.remove(101,"durga");
+
+output:->
+{101=durga}
+
+
+
+boolean replace(Object key,Object oldValue,Object newValue):->
+m.put(101,"durga");
+m.replace(101,"shiva","hari");
+sysout(m) //{101=durga}
+m.replace(101,"durga","hari");
+sysout(m); //{101=hari}
+
+Note:-> these methods not present inside normal map.
+
+
+
+ConcurrentHashMap:->
+-> it is thread safe concurrent collection while normal HashMap is not thread safe.
+-> in this map total bucket level lock is implemented instead of entire hashmap.the initial size of the
+map object is 16 so 16 multiple thread are allowed to update the bucket simultaneously while any no of
+thread can perform read operation.
+-> hashmap stores data internally in bucket.
+-> for each bucket a separate lock is maintained.
+-> in hashtable to perform any operation thread required total map object lock but in the case of
+concurrent hash map thread won't required total map object lock.thread required segment lock so
+performance of the system will be improved.
+-> if there are 16 bucket but only 8 are used then for every two buckets one lock will be maintained.
+
+Conclusions:->
+-> Underlying data structure is hash table.
+-> concurrent hashmap allows concurrent read and thread-safe update operations.
+-> to perform read operation thread won't require any lock but to perform update operation thread
+requires lock but it is lock of only a particular part of map(Segment lock/bucket lock) instead of
+total map.
+-> concurrent update archived by internally dividing map into smaller portions which is defined by
+concurrency level.
+-> the default concurrency level is 16.
+-> concurrent hash map allows any no of read operations but 16 update operations at a time by default.
+-> null is not allowed for both keys and values.
+-> while one thread iterating ,the other thread can perform update operations and concurrent hashmap
+never throw concurrent modification exception.
+
+
+Constructors:->
+i. ConcurrentHashMap m = new ConcurrentHashMap(); //default size 16,fill ratio 0.75,concurrency level=16
+ii. ConcurrentHashMap m = new ConcurrentHashMap(int initialcapacity);
+iii. ConcurrentHashMap m = new ConcurrentHashMap(int initialcapacity,float fillratio);
+iv. ConcurrentHashMap m = new ConcurrentHashMap(int initialcapacity,float fillratio,int concurrencylevel);
+v. ConcurrentHashMap m = new ConcurrentHashMap(Map m);
+
+-> in second program if we replace ConcurrentHashMap to HashMap then we will get the Concurrent Modification
+Exception.
+
+-> main thread may or may not iterate that updated value by other thread.
+
+HashMap Vs ConcurrentHashMap:->
+-> it is not thread safe VS it is thread safe
+-> Relatively performance is high because Threads are not required to wait to operate on HashMap VS Relatively
+performance is low because some times thread are required to wait to operate on ConcurrentHashMap.
+-> while one thread iterating HashMap the other thread are not allowed to modify Map object otherwise we will get
+runtime exception saying ConcurrentModificationException VS while one thread iterating ConcurrentHashMap the other
+thread are allowed to modify Map objects in safe manner and it won't throw ConcurrentModificationException.
+
+-> iterator of HashMap is Fail-Fast and it throws ConcurrentModificationException VS Iterator of ConcurrentHashMap
+is Fail-Safe and it won't throw ConcurrentModificationException.
+-> Null is allowed for both keys and values VS null is not allowed for both keys and values.otherwise we will get
+null pointer exception.
+-> introduced in 1.2 version VS Introduced in 1.5 version
+
+
+ConcurrentHashMap VS synchronizedMap VS Hashtable:->
+-> we will get thread safety without locking total map object just with bucket level lock VS we will get thread safety
+by locking whole map object VS we will get thread safety by locking whole map object.
+-> at a time multiple threads are allowed to operate on map object in safe manner VS at a time only one thread is allowed
+to perform any operation on map object VS at a time only one thread is allowed to perform any operation on map object
+-> read operation can be performed without lock but write operation can be performed with bucket level lock Vs every
+read and write operations require total map object lock vs every read and write operations require total map object lock.
+->while one thread iterating map object,the other threads are allowed to modify map and we won't get ConcurrentModification
+Exception VS while one thread iterating map object,the other threads are not allowed to modify map.otherwise we will get
+ConcurrentModificationException VS while one thread iterating map object,the other threads are not allowed to modify map.
+otherwise we will get ConcurrentModificationException.
+-> iterator of ConcurrentHashMap is Fail-Safe and won't raise ConcurrentModificationException VS iterator of Synchronized
+Map is Fail-Fast and it will raise ConcurrentModificationExcepton.iterator of Synchronized Map is Fail-Fast and it will
+raise ConcurrentModificationExcepton.
+-> null is not allowed for both keys and values VS null is allowed for both keys and values VS null is not allowed for
+both keys and values.
+-> introduced in 1.5 version. VS introduced in 1.2 version VS introduced in 1.0 version.
+==============================================================================================================
+ CopyOnWriteArrayList(C):->
+ Collection(I)
+ List(I)
+ CopyOnWriteArrayList(C)
+
+ -> it is a thread safe version of ArrayList as the name indicates CopyOnWriteArrayList creates a cloned copy of underlying ArrayList
+ for every update operation at certain point both will synchronize automatically.Which is taking care by JVM internally.
+ -> as update operation will be performed on cloned copy there is no effect for the threads which performs read operation.
+ -> it is costly to use because for every update operation a cloned copy will be created.hence CopyOnWriteArrayList is the best
+ choice if several read operations and less number of write operations are required to perform.
+ -> insertion order is preserved.
+ -> duplicate objects are allowed.
+ ->heterogeneous objects are allowed.
+ -> null insertion is possible.
+ -> it implements serializable,cloneable and randomaccess interfaces.
+ -> while one thread iterating CopyOnWriteArrayList,the Other threads are allowed to modify and we won't get
+ ConcurrentModificationException.that is iterator is Fail Safe.
+ -> iterator of arraylist can perform remove operation but iterator of CopyOnWriteArrayList can't Perform remove operation.
+ otherwise we will get RuntimeException saying unsupportedoperationexception.
+
+ Similarities between ArrayList and CopyOnWriteArrayList:->
+ i. insertion order is prserved
+ ii. duplicates are allowed
+ iii. heterogenious objects are allowed
+ iv. null insertion is possible
+ v. implements serializable,clonaable,randomaccess
+
+ Differences between ArrayLIst and CopyOnWriteArrayList:->
+ -> concurrent modification exception occured in Arraylist but not in CopyOnWriteArrayList.
+ -> iterator of array list is thread-fail while iterator of copyonwritearraylist is thread-safe.
+ -> iterator of array list can perform remove operation while iterator of copyonwritearraylist can't perform remove operataion.
+
+ Constructor:->
+ CopyOnWriteArrayList i = new CopyOnWriteArrayList();
+ CopyOnWriteArrayList i = new CopyOnWriteArrayList(Collection c);
+  CopyOnWriteArrayList i = new CopyOnWriteArrayList(Object[] a);
+
+
+Methods:->
+
+boolean addIfAbsent(Object o):-> the element will be added if and only if list doesn't contain this element.
+CopyOnWriteArrayList   = new CopyOnWriteArrayList();
+l.add("A");
+l.add("A");
+l.addIfAbsent("B");
+l.addIfAbsent("B");
+System.out.pritnln(l);
+
+int addAllAbsent(Collection c):-> the element of collection will be added to the list if elements are absent and returns number of elements
+added.
+ArrayList I = new ArrayList();
+I.add("A");
+I.add("B");
+
+CopyOnWriteArrayList I1 = new CopyOnWriteArrayList();
+I1.add("A");
+I1.add("C");
+System.out.println(I1);
+I1.addAll(I);
+System.out.pritnln(I1);
+
+ArrayList I2 = new ArrayList();
+I2.add("A");
+I2.add("D");
+I1.addAllAbsent(I2);
+System.out.pritnln(I1);
+
+ArrayList VS CopyOnWriteArrayList:->
+-> it is not thread safe VS it is thread safe.
+-> while one thread iterating one list object,the other thread are not allowed to modify list otherwise we will get
+ConcurrentModificationException VS while one thread iterating list object.the other threads are allowed to modify list
+in safe manner and we won't get ConcurrentModificationException.
+-> iterator is fail-fast VS iterator is fail-safe
+-> iterator or array list can perform remove operation vs iterator or copyonarraylist can't perform remove operation.
+-> introduced in 1.2 version VS introduced in 1.5 version.
+
+CopyOnWriteArrayList VS synchronizedList() VS Vector:->
+-> we will get thread safety because every update operation will be performed on separate cloned copy
+VS we will get thread safety because at a time list can be accessed by only one thread at a time VS
+we will get thread safety because at a time only one thread is allowed to access vector
+object
+
+-> at a time multiiple threads are allowed to access/operate on CopyOnWriteArrayList VS at a time only
+one thread is allowed t perform any operation on list object VS at a time only one thread is allowed
+to operate on a vector object.
+
+-> while one thread iterating list object,the other threads are allowed to modify and we won't get
+concurrentmodificationexcception. VS while one thread is iterating,the other threads are not allowed
+to modify list.otherwise we will get concurrentmodificationexception. VS while one thread iterating,
+the other threads are not allowed to modify vector.otherwise we will get concurrentmodificationexception.
+
+-> iterator is fail-safe and won't raise CME.VS iterator is Fail-Fast and it will raise CME.VS
+iterator is fail-fast and it will raise CMF.
+
+-> iterator can't perform remove operation othersies we will get unsupported  operation exception. VS
+iterator can perform remove operation VS iterator can performs remove operation.
+
+-> introduced in 1.5 version VS introduced in 1.2 version VS introduced in 1.0 version
+===========================================================================================================
+Collection(I)
+Set(I)
+CopyOnWriteArraySet(C)
+
+-> it is a thread safe version of set.
+-> internally implemented by CopyOnWriteArrayList.
+-> Insertion order is preserved.
+-> duplicate object are not allowed.
+-> multiple thread can able to perform read operation simultaneously but for every update operation a separate
+cloned object will be created.
+-> as for every update operation a separate cloned copy will be created which is costly hence if multiple update
+operation are required then it is not recommended to use CopyOnWriteArraySet.
+-> while one thread iterating set the other threads are allowed to modify set and we won't get ConcurrentModification
+Exception.
+-> iterator or CopyOnWriteArraySet can perform only read operation and won't perform remove operation.otherwise
+we will get runtime exception unsupportedmethodoperation excepton.
+
+CopyOnWriteArraySet VS synchronizedSet():->
+-> it is thread safe because every update operation will be performed on separate cloned copy. VS it is thread safe
+because at a time only one thread can perform operation.
+->while one thread iterating set,the other threads are allowed to modify and we won't get CME.VS while one thread
+iterating,the other threads are not allowed to modify set otherwise we will get CME.
+-> iterator is fail safe VS iterator is fail fase.
+-> Iterator can perform only read operation and can't perform remove operation otherwise we will get rumtime exception
+saying unsupportedoperationexception. VS iterator can perform both read and remove operation.
+-> introduced in 1.5 version VS introduced in 1.2 version.
