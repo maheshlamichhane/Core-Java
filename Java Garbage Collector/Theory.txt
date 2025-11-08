@@ -254,7 +254,7 @@ class Test {
 		t.finalize();
 		t = null;
 		System.gc();
-		System.out.println("End of Main");
+		System.out.println("End of ThreadMain");
 	}
 
 	public void finalize(){
@@ -265,7 +265,7 @@ class Test {
 output:
 Finalize Method Called
 Finalize Method Called
-End of Main
+End of ThreadMain
 Finalize Method Called
 
 note:-> last finalize method called by garbage collector.if we are calling finalize method explicitly then it will
