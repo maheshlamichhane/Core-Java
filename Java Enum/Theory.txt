@@ -1,0 +1,176 @@
+ENUM:->
+-> if we want to represent a group of named constants then we should go for ENUM.
+Example:
+enum Month{
+	JAN,FEB,MAR,APR,...DEC;
+}
+enum Beer{
+	KO,KF,RC,AO;
+}
+semicolon is optional.
+-> the main objective of ENUM is to define our own data types(enumerated data types).
+-> ENUM concept introduced in 1.5 version when compared with old languages ENUM java enum is more powerful.
+
+Internal Implementation of ENUM:->
+enum Beer {
+	KF,RC;
+}
+
+class Beer{
+	public static final Beer KF = new Beer();
+	public static final Beer RC = new Beer();
+}
+-> every enum is internally implemented by using class concept.
+-> every enum constant is always public static final.
+-> every enum constants represents an object of the type enum.
+
+ENUM Declaration and Usage:->
+-> every enum constant is always public static final and hence we can access enum constant by using enum
+name.
+enum Beer {
+	KF,KO,RC,CO;
+}
+class Test{
+	public static void main(String args[]){
+		Beer b = Beer.KF;
+		System.out.println(b);
+	}
+}
+
+Note:-> inside enum toString() method is internally implemented to return name of the constants.
+
+-> we can declare enum either within the class or xoutside the class but not inside a method.if we are
+trying to declare inside a method then we will get compile time error saying enum types must not be local.
+
+-> if we declare enum outside the class,the applicable modifiers are public,default,strictfp.
+-> if we declare enum inside a class,the applicable modifiers are public,default,strictfp,private,protected,
+static.
+
+ENUM VS SWITCH:->
+-> until 1.4 version the allowed argument types for the switch statement or byte,short,int,char.but from
+1.5 version onwards corresponding wrapper classes and ENUM types are allowed.from 1.7 version onwards string
+type also allowed.
+hence from 1.5 version onwards we can pass enum type as argument to switch statement.
+
+-> if we pass enum type as argument to switch statement then every case label should be valid enum constant.
+otherwise we will get compile time error.
+
+Enum Vs Inheritance:->
+-> every enum is always direct child class of java.lang.Enum and hence our enum can't extends any other enum(
+because java won't provide support for multiple inheritance).
+-> Every enum is always final implicitly and hence for our enum we can't create child enum.
+-> because of above reasons we can conclude inheritance concept not applicable for enum explicitly and we can't
+use extends keyword for enum.
+
+-> anyway an enum can implement any no of interfaces.
+interface X{
+}
+enum Y implements X{
+}
+
+Conclusion:-> java.lang.Enum
+-> every enum in java is a direct child class of java.lang.Enum and hence this class act as base class for
+all java enums.
+-> it is an abstract class and it is a direct child class of object.
+-> it implements serializable and comparable interfaces.
+
+values() Method:->
+-> every enum implicitly contain values method to list out all values present inside enum.
+Beer[] b = Beer.values();
+Note:-> values method not present in java.lang.Enum and Object class.enum keyword implicitly provides this
+method.
+
+ordinal() Method:->
+-> inside enum order of constant is important and we can represent this order by using ordinal value.
+-> we can find ordinal value of enum constant by using ordinal method.
+public final int ordinal();
+ordinal value is zero based like array index.
+=========================================================================================================
+
+-> in old languages enum we can't take only constants but in java enum in addition to constants we can take
+methods,constructor,normal variables etc.hence java enum is more powerful than old languages enum.
+
+-> even inside java enum we can declare main method and we can run enum class directly from command prompt.
+
+Note:->
+-> in addition to constants if we are taking any extra member like a method then list of constants should
+be in the first line and should ends with semicolon.
+
+-> inside enum if we are taking any extra member like a method compulsory the first line should contain
+list of constants at least semicolon.
+->anyway an empty enum is a valid java syntax.
+
+enums vs constructor:->
+-> an enum can contain constructor.
+-> enum constructor will be executed separately for every enum constant at the time of enum class loading
+automatically.
+
+-> we can't create enum object directly and hence we can't invoke enum constructor directly.
+Beer b = new Beer(); //CE: enum type may not be instantiated.
+
+
+enums vs instance variable and methods:->
+KF->public static final Beer KF = new Beer();
+KF(70)->public static final Beer KF = new Beer(70);
+-> see the example in package
+
+enums vs abstract method:->
+-> inside enum we can declare methods but should be concrete methods only and we can't declare abstract
+methods.
+
+Exam cases:->
+case-I:-> every enum constants represents an object of type enum hence whatever methods we can apply on normal
+java objects,can be applicable on enum constants also.example
+Beer.KF.equals(Beer.RC); //valid
+Beer.KF.hasCode() > Beer.RC.hasCode(); //valid
+Beer.KF < Beer.RC //invalid
+Beer.KF.ordinal() < Beer.RC.ordinal(); //valid
+
+case-II:-> if we want to use any class or interface directly from outside package then the required import is
+normal import.
+if we want to access static members without class name then the required import is static import.see example.
+
+package0
+enum Fish{
+ STAR,GUPPY;
+}
+
+
+package1
+class Test1{
+	public static void main(String args[]){
+		Fish f = Fish.STAR;
+		System.out.println(f);
+	}
+}
+-> the required import is import package0.Fish or package0.*
+
+package2
+class Test2{
+	public static void main(String args[]){
+		System.out.pritnln(STAR);
+	}
+}
+-> the requried import is import static package0.Fish.STAR or import static package0.Fish.*;
+
+
+package3
+class Test3{
+	public static void main(String args[]){
+		Fish f = Fish.GUPPY;
+		System.out.println(STAR);
+	}
+}
+-> the required import is import package0.Fish or package0.*
+-> the required import is import static package0.Fish.STAR or import static package0.Fish.*;
+
+case-III:->
+-> enums with inner class see example.
+
+
+enum vs Enum vs Enumeration:->
+-> enum is keyword in java which can be used to define a group of named constants.
+-> Enum is a class in java present in java.lang package.every Enum in java should be direct child class of
+enum class.hence this class access base class for java enums.
+-> Enumeration is an interface present in java.util package.we can use Enumeration object to get objects
+one by one from the collection.

@@ -1259,7 +1259,122 @@ locks, or Semaphore) to protect that variable.
 -> Instead of manually keeping a Map<Thread, Object>, Java gives us ThreadLocal to handle this automatically.
 
 
+What Are Virtual Threads?
+-> Virtual threads are a lightweight concurrency mechanism introduced in Java 19 (as a preview feature)
+and officially released in Java 21 under Project Loom.
+-> They aim to dramatically reduce the cost of concurrency by allowing applications to handle millions of
+concurrent tasks efficiently.
 
+
+The Problem with Traditional Threads
+-> Before virtual threads, Java used platform threads — each one is backed by a native OS thread.
+
+Limitations of Platform Threads:
+-> Heavyweight — Each thread consumes significant memory (e.g., ~1 MB stack space by default).
+-> Limited scalability — The OS can only handle a few thousand threads efficiently.
+-> Blocking operations waste resources — If a thread performs a blocking I/O call (e.g., Socket.read()),
+it gets suspended, but the OS thread remains blocked too.
+-> Context switching cost — Switching between OS threads is expensive.
+-> This made it difficult to build high-throughput servers that needed to handle many concurrent connections
+(e.g., chat servers, web servers).
+
+
+What Are Virtual Threads?
+-> Virtual threads are Java-managed threads, not OS threads.
+-> Scheduled by the Java Virtual Machine (JVM) instead of the operating system.
+-> Mapped onto a smaller pool of OS threads (often called carrier threads).
+-> Extremely lightweight — thousands or even millions can coexist.
+-> Essentially, a virtual thread behaves like a normal Java thread, but is much cheaper to create and block.
+
+How Virtual Threads Work
+-> A virtual thread runs Java code until it performs a blocking operation (e.g., I/O).
+-> The virtual thread is unmounted from its carrier thread.
+-> The carrier thread is freed to run another virtual thread.
+-> When the I/O completes, the virtual thread is rescheduled on a (possibly different) carrier thread to
+continue execution.
+-> This makes blocking code non-blocking at the JVM level — while still looking like simple blocking code to
+the programmer.
+
+Key Concepts
+Concept	                    Description
+Virtual Thread	            A lightweight thread managed by the JVM, not the OS.
+Carrier Thread	            The real OS thread that temporarily runs a virtual thread.
+Mount / Unmount	            The process of associating/dissociating a virtual thread with a carrier thread.
+Scheduler	                A JVM component that schedules virtual threads on available carrier threads.
+
+Without Virtual Threads
+
+You might use a thread pool to handle client requests:
+var executor = Executors.newFixedThreadPool(100);
+This limits concurrency to 100 simultaneous tasks.
+
+With Virtual Threads
+You can create millions of concurrent tasks easily:
+var executor = Executors.newVirtualThreadPerTaskExecutor();
+try (executor) {
+    IntStream.range(0, 1_000_000).forEach(i ->
+        executor.submit(() -> {
+            Thread.sleep(1000); // blocking call
+            return i;
+        })
+    );
+}
+Even though each task blocks, the underlying OS threads remain free to serve other virtual threads.
+
+
+Key Features
+Feature	                    Platform Thread	                Virtual Thread
+Backed by OS Thread	        ✅ Yes	                        ❌ No
+Memory Usage	            High (~1MB stack)	            Very Low (~few KB)
+Creation Cost	            High	                        Very Low
+Blocking Call	            Blocks OS thread	            JVM unmounts it
+Scalability	                Thousands	                    Millions
+Scheduler	                OS	                            JVM
+
+Example1:
+public class VirtualThreadExample {
+    public static void main(String[] args) {
+        Thread t = Thread.startVirtualThread(() -> {
+            System.out.println("Running in: " + Thread.currentThread());
+        });
+
+        // Wait for the virtual thread to finish
+        t.join();
+    }
+}
+
+Example2:
+public class VirtualThreadBuilderExample {
+    public static void main(String[] args) throws InterruptedException {
+        Thread t = Thread.ofVirtual().name("my-virtual-thread").start(() -> {
+            System.out.println("Running in: " + Thread.currentThread());
+        });
+
+        t.join();
+    }
+}
+
+Example3:
+import java.util.concurrent.*;
+
+public class VirtualThreadExecutorExample {
+    public static void main(String[] args) {
+        try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
+
+            for (int i = 0; i < 10; i++) {
+                int taskId = i;
+                executor.submit(() -> {
+                    System.out.println("Task " + taskId + " in " + Thread.currentThread());
+                    Thread.sleep(1000); // Simulate I/O or delay
+                    return null;
+                });
+            }
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}
 
 
 
