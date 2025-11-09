@@ -448,8 +448,8 @@ class DaemonDemo {
         daemonThread.setDaemon(true);
         daemonThread.start();
 
-        // Main thread (user thread)
-        System.out.println("Main thread is finishing...");
+        // DateFormatMain thread (user thread)
+        System.out.println("DateFormatMain thread is finishing...");
 
         // JVM will exit here after main thread ends, daemon thread stops automatically
     }
@@ -983,7 +983,7 @@ public class CompletableFutureMain {
                         return null;
                     });
 
-            System.out.println("Main thread is free to do other work...");
+            System.out.println("DateFormatMain thread is free to do other work...");
 
             Thread.sleep(3000); // wait for async task to complete
         }
@@ -1060,7 +1060,7 @@ public class CountDownLatchMain {
                 new Thread(new Worker(latch, i)).start();
             }
 
-            System.out.println("Main thread waiting for workers...");
+            System.out.println("DateFormatMain thread waiting for workers...");
             latch.await();  // Wait until count becomes 0
             System.out.println("All workers finished. Proceeding...");
         }
