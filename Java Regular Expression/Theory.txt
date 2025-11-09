@@ -1,0 +1,62 @@
+Regular Expression:-> If we want to represent a group of strings according to a particular pattern
+then we should go for regular expressions. we can write regular expression to represent all valid mobile
+numbers.we can
+write regular expression to represent all mail ids.
+The important application areas of regular expression are:->
+i. to develop validation frameworks
+ii. to develop pattern matching applications(Control F in windows)
+iii. to develop translators like assemblers compilers interpreters etc.
+iv. to develop digital circuits.
+v. to develop communication protocols like tcp/ip,udp etc.
+
+
+Pattern :-> pattern object is a compile version of regular expression that is it is a java equivalent
+object of pattern.we can create a pattern a pattern object by using compile method of pattern class.
+public static Pattern compile(String re)
+
+Matcher:-> we can use matcher object to check the given pattern in the target string.we can create a matcher
+object by using matcher method of pattern class.
+public Matcher matcher(String target)
+
+Important methods of matcher class:->
+boolean find():-> it attempts to find next match and returns true if it is available.
+int start() :-> it returns start index of the match
+int end():-> it returns n+1 end index of the match
+String group():-> it returns the matched pattern content
+
+Note:-Pattern and Matcher classes present in java.util.regex package and introduced in 1.4 version.
+===========================================================================================================
+Character classes:->
+[abc]:-> Either a or b or c
+[^abc]:-> Except a or b or c
+[a-z]:-> Any lower case alphabet symbol from a to z
+[A-Z]:-> Any capital alphabet symbol from A-Z
+[a-zA-Z] :-> Any alphabet from symbol
+[0-9]:-> Any digit from 0-9
+[0-9a-zA-Z]: Any alphanumeric symbol
+[^0-9a-zA-Z]: Except alphanumeric symbol
+
+Predefined Character Classes:->
+\s for space characters  \\s
+\S for Except space character any other character
+\d for any digit from 0 to 9
+\D for Except digit any character
+\w for any word character(alpha numeric)
+\W Except word character(alpha numeric)
+. for any character digit or words or special character or space
+
+
+Quantifiers:-> we can use quantifiers to specify number of occurrences to match.
+a:-> exactly one a
+a+:-> at least one a
+a*:-> any number of a's including 0 number
+a?:-> at most one a
+===========================================================================================================
+we can use pattern class split method to split the target string according to a particular
+pattern.
+
+StringTokenizer Class:->
+->it is a specially designed class for tokenization activity.
+-> stringtokenzer present in java.util package
+-> default pattern for string tokenizer is space
+->
