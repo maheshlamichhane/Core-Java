@@ -1,0 +1,181 @@
+Introduction:->
+-> very common way of debugging is usage of sop statements but the problem with sop's is after
+fixing the bug compulsory we have to delete sop statements.otherwise these sop's will be executed
+at runtime for every request,which creates performance problems and disturbs server logs.
+
+-> to overcome these problem sun people introduced assertions concept in 1.4 version.
+-> the main advantage of assertions when compared with sop's is after fixing the bug we are not
+required to remove assert statements because they won't be executed by default at runtime.
+
+-> based on our requirement we can enable and disable assertions.and by default assertions are
+disabled.
+-> hence the main objective of assertions is to perform debugging.
+-> usually we can perform debugging in development and test environments but not in production
+environment hence assertions concept applicable for development and test environments but not
+for production.
+-> it comes in 1.4 version.
+
+
+
+Assert as identifier and keyword:->
+-> assert keyword introduced in 1.4 version hence from 1.4 version onwards we can't use assert as
+identifier otherwise we will get compile time error.
+
+
+Note:->
+-> if we are using assert as identifier and if we are trying to compile according to old
+version(1.3 or lower) then the code compiles fine but with the warning.
+-> we can compile a java program according to particular versions by using -source options.
+
+Types Of Assert Statements:-> there are two types of assert statements
+i. Simple Version
+ii. Augmented Version
+
+i.Simple Version
+syntax:
+assert(b)
+-> b should be boolean type.
+-> if b is true then our assumption satisfied and hence rest of the program will be executed normally.
+-> if b is false then our assumption fails i.e somewhere something goes wrong.and hence the program will
+be terminated abnormally by rising assertions error.once we got assertions error we will analyze the code
+and we can fix the problem.
+
+Note:-> java enabling assertions.
+java -ea class_name
+for eclipse select run as VM argument type -ea
+by default assert statement won't be executed because assertions are disabled by default but we can enable
+assertions by using above command.
+
+Augmented Version:->
+-> we can augment some description with assertion error by using augmented version.
+syntax
+assert(b):e
+b should boolean type
+e should be string type
+e will be executed if and only first argument is false that is if the first argument is true then second
+argument won't be executed.
+
+Conclustion1:->
+int x = 10;
+;;;;;;;;;;;;;;;;;;;
+assert(x > 10) : ++x;
+;;;;;;;;;;;;;;;;;;;
+System.out.println(x);
+
+Conclusion2:->
+int x = 10;
+;;;;;;;;;;;;;;;;;;;
+assert(x > 10) : m1();
+;;;;;;;;;;;;;;;;;;;
+System.out.println(x);
+
+public static int m1(){
+return 8888;
+}
+-> it does not make sense if we used method return type as void here.
+
+Note:-> among two versions of assertions it is recommended to use augmented version because it provides
+more information for a debugging.
+
+
+Various possible runtime flags:->
+i. -ea -> enableassertions
+ii. -da -> disableassertions
+iii. -esa -> enablesystemassertion
+iv. -dsa -> disablesystemassertion
+
+Note:-> we can use above flags simultaneously then JVM will consider these flags from left to right.
+Example
+java -ea -esa -ea -dsa -da -esa -ea -dsa Test
+
+not system -> enable
+system -> disable
+-> at the end assertion will be enable in every non system class and disable in every system class.
+
+Pack1
+	A.class
+	B.class
+	pack2
+		C.class
+		D.class
+
+i. to enable assertion only in B class
+java -ea:pack1.B
+
+ii. to enable assertion in both B and D classes
+java -ea:pack1.B -ea:pack1.pack2.D
+
+iii. to enable assertion in every class of pack1
+java -ea:pack1...
+
+iv.to enable assertion in every class of pack1 except B class
+java -ea:pack1... -da:pack1.B
+
+v. to enable assertion in every class of pack1 except pack2 class
+java -ea:pack1... -da:pack1.pack2
+
+
+-> it is always inappropriate to mix programming logic with assert statements because there is no guarantee
+for the execution of assert statement always at runtime.
+public void withdraw(double amt){
+	if(amount < 100){
+		throw new IllegalArgumentExcetpion();
+	}
+	else {
+		//process the request
+	}
+}
+it is the appropriate way of coding
+
+public void withdraw(double amount){
+	assert(amount >= 1000);
+	//process request
+}
+it is inappropriate way of coding.
+
+
+-> while performing debugging in our program if there is any place where control is not allowed to reach
+that is the best place to use assertions.
+switch(x)
+{
+	case 1:
+		sysout("JAN");
+		break;
+	case 2:
+		sysout("FEB");
+		break;
+	default:
+		assert(false);
+}
+
+-> it is always inappropriate for validating public methods arguments by using assertions because outside
+person doesn't aware whether assertions are enabled or disabled in our system.
+
+
+-> it is always appropriate for validating private methods arguments by using assertions because local
+person can aware whether assertions are enabled or disabled in our system.
+
+-> it is always inappropriate for validating command line arguments by using assertions.because these are
+arguments to main method,which is public.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

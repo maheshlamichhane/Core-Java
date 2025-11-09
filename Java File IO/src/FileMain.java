@@ -74,7 +74,7 @@ public class FileMain {
         out.close();
 
 
-        //FileOutputStream and FileOutputStream
+        //FileOutputStream and FileInputStream
         try {
             // create a writer
             FileOutputStream fos = new FileOutputStream("nature.jpg");
