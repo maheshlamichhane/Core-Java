@@ -1,0 +1,147 @@
+What is Reflection in Java?
+-> Reflection in Java is a feature of the Java Runtime Environment (JRE) that allows a program to inspect and
+manipulate the runtime behavior of classes, interfaces, methods, and fields — even if they are private.
+
+-> In simpler terms:
+👉 Reflection lets you look inside classes and objects while the program is running, not just when you
+write the code.
+
+Why Use Reflection?
+-> Development tools — e.g., IDEs, debuggers, analyzers, and profilers.
+-> Frameworks — e.g., Spring, Hibernate, JUnit — they use reflection to load classes, inject dependencies,
+or call methods dynamically.
+-> Serialization / Deserialization — converting objects to and from JSON, XML, etc.
+-> Testing tools — to access private methods or fields.
+-> Plugin architectures — loading classes dynamically at runtime.
+
+Reflection API Overview
+-> Reflection in Java is provided by the java.lang.reflect package, and relies on Class objects from
+java.lang.Class.
+
+Main classes:
+Class	                Description
+Class<T>	            Represents a class or interface at runtime.
+Field	                Represents a class’s field (member variable).
+Method	                Represents a class’s method.
+Constructor	            Represents a class’s constructor.
+Modifier	            Provides methods to decode class and member access modifiers (public, private, etc.).
+
+Getting Class Objects
+-> Before you can use reflection, you need a Class object. There are three ways to get it:
+
+// 1. Using the .class literal
+Class<?> cls1 = String.class;
+
+// 2. Using an object’s getClass() method
+String s = "Hello";
+Class<?> cls2 = s.getClass();
+
+// 3. Using Class.forName() — dynamic loading
+Class<?> cls3 = Class.forName("java.lang.String");
+
+Inspecting Class Information
+-> Once you have a Class object, you can get information about the class:
+
+System.out.println("Class name: " + cls1.getName());
+System.out.println("Superclass: " + cls1.getSuperclass());
+System.out.println("Interfaces: " + Arrays.toString(cls1.getInterfaces()));
+System.out.println("Modifiers: " + Modifier.toString(cls1.getModifiers()));
+
+Accessing Fields, Methods, and Constructors
+-> You can list all or specific members of a class.
+
+1. Fields
+Field[] fields = cls1.getDeclaredFields(); // all fields (including private)
+for (Field f : fields) {
+    System.out.println("Field: " + f.getName() + ", Type: " + f.getType());
+}
+
+
+You can also get a specific field:
+Field field = cls1.getDeclaredField("value");
+field.setAccessible(true); // allow access to private field
+Object value = field.get(s);
+
+2. Methods
+ Method[] methods = cls1.getDeclaredMethods(); // includes private methods
+ for (Method m : methods) {
+     System.out.println("Method: " + m.getName());
+ }
+
+ Call a method dynamically:
+
+ Method method = cls1.getMethod("substring", int.class, int.class);
+ String result = (String) method.invoke("Reflection", 1, 4);
+ System.out.println(result); // "efl
+
+ 3. Constructors
+ Constructor<?>[] constructors = cls1.getDeclaredConstructors();
+ for (Constructor<?> c : constructors) {
+     System.out.println("Constructor: " + c);
+ }
+
+
+ Create a new object dynamically:
+ Class<?> personClass = Class.forName("com.example.Person");
+ Constructor<?> cons = personClass.getConstructor(String.class, int.class);
+ Object personObj = cons.newInstance("John", 25);
+
+ Setting Accessibility
+
+ Private members can be accessed using:
+
+ field.setAccessible(true);
+ method.setAccessible(true);
+ constructor.setAccessible(true);
+
+
+ ⚠️ Use this carefully — it breaks encapsulation and can cause security issues.
+
+ Example:
+ import java.lang.reflect.*;
+
+ class Person {
+     private String name;
+     private int age;
+
+     public Person() {}
+     public Person(String name, int age) { this.name = name; this.age = age; }
+
+     private void sayHello() {
+         System.out.println("Hello, my name is " + name);
+     }
+ }
+
+ public class ReflectionDemo {
+     public static void main(String[] args) throws Exception {
+         Class<?> cls = Class.forName("Person");
+
+         // Create object
+         Constructor<?> cons = cls.getConstructor(String.class, int.class);
+         Object obj = cons.newInstance("Alice", 30);
+
+         // Access private field
+         Field field = cls.getDeclaredField("name");
+         field.setAccessible(true);
+         field.set(obj, "Bob");
+
+         // Invoke private method
+         Method method = cls.getDeclaredMethod("sayHello");
+         method.setAccessible(true);
+         method.invoke(obj);
+     }
+ }
+
+ Pros and Cons
+ ✅ Advantages	                                                            ❌ Disadvantages
+ Enables dynamic and flexible code	                                         Performance overhead
+ Used in frameworks and tools	                                             Breaks encapsulation
+ Allows runtime inspection and modification	                                 Security risks if misused
+ Enables generic libraries	                                                 Harder to debug and maintain
+
+
+Security Considerations
+-> Reflection can bypass access control, so the SecurityManager (in older Java) or module access (in Java 9+)
+restricts it.
+-> In modern Java (since Java 9), accessing private members across modules may cause
+InaccessibleObjectException, unless explicitly opened using the --add-opens flag.
