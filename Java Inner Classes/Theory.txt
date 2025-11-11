@@ -244,7 +244,7 @@ class ThreadDemo{
 		MyThread  t = new MyThread();
 		t.start();
 		for(int i = 0; i<10; i++){
-			System.out.println("Main Thread");
+			System.out.println("TCPSERVERThreadPoolMain Thread");
 		}
 
 	}
@@ -262,7 +262,7 @@ class ThreadDemo {
 		};
 		t.start();
 		for(int i = 0; i<10; i++){
-			System.out.println("Main Thread");
+			System.out.println("TCPSERVERThreadPoolMain Thread");
 		}
 
 	}
@@ -284,7 +284,7 @@ class ThreadDemo {
 		Thread t = new Thread(r);
 		t.start();
 		for(int i=0;i<=10;i++){
-			System.out.println("Main Thread");
+			System.out.println("TCPSERVERThreadPoolMain Thread");
 		}
 	}
 }
@@ -302,7 +302,7 @@ class ThreadDemo {
 		Thread t = new Thread(r);
 		t.start();
 		for(int i=0;i<=10;i++){
-		 	System.out.println("Main Thread");
+		 	System.out.println("TCPSERVERThreadPoolMain Thread");
 		}
 	}
 }
@@ -320,7 +320,7 @@ class ThreadDemo {
 		});
 
 		for(int i=0;i<=10;i++){
-		 	System.out.println("Main Thread");
+		 	System.out.println("TCPSERVERThreadPoolMain Thread");
 		}
 
 	}

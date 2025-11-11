@@ -1,0 +1,185 @@
+What is Network Programming?
+-> Network programming is the practice of writing programs that communicate with other programs across a
+computer network, such as the Internet or a LAN.
+-> In Java, network programming enables communication between two or more devices (computers) using the TCP/IP
+protocol suite.
+
+Java and Networking
+-> Java provides a rich set of APIs (classes and interfaces) in the java.net package for network programming.
+Important Classes in java.net Package
+Class	                            Description
+InetAddress	                        Represents an IP address (IPv4 or IPv6).
+URL	                                Represents a Uniform Resource Locator (web address).
+URLConnection	                    Represents a communication link between an application and a URL.
+Socket	                            Used for client-side TCP communication.
+ServerSocket	                    Used for server-side TCP communication.
+DatagramSocket	                    Used for sending and receiving UDP packets.
+DatagramPacket	                    Represents a UDP packet of data.
+NetworkInterface	                Represents a network interface (like eth0, Wi-Fi, etc.).
+
+Understanding IP, Port, and Protocol
+-> Before diving into Java code, understand the network basics:
+
+Concept	        Description	                                                    Example
+IP Address	    Unique address identifying a device on a network	            192.168.1.10
+Port Number	    Logical channel on a device used to identify a specific service	80 (HTTP), 25 (SMTP), 8080 (custom app)
+Protocol	    Set of rules for communication	                                TCP (reliable), UDP (unreliable but faster)
+
+
+Java Networking Model Overview
+-> Java’s networking is based on Client-Server Architecture:
+Server: waits for client requests (listens on a port).
+Client: connects to the server and exchanges data.
+
+Core Components:->
+i. InetAddress Class
+-> Used to represent an IP address (both hostname and numeric).
+
+Example:
+InetAddress ip = InetAddress.getByName("www.google.com");
+System.out.println("Host Name: " + ip.getHostName());
+System.out.println("IP Address: " + ip.getHostAddress());
+
+InetAddress local = InetAddress.getLocalHost();
+System.out.println("Local Host: " + local);
+
+Output:
+Host Name: www.google.com
+IP Address: 142.250.183.132
+Local Host: DESKTOP-12345/192.168.1.5
+
+ii. TCP Communication (Reliable, Connection-Oriented)
+-> Classes:
+ServerSocket → for servers
+Socket → for clients
+-> TCP ensures that data is delivered in order, without loss or duplication.
+
+Example:
+
+TCP Server:->
+
+ServerSocket server = new ServerSocket(9999);
+System.out.println("Server started. Waiting for client...");
+
+Socket socket = server.accept();
+System.out.println("Client connected!");
+
+BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
+String msg = in.readLine();
+System.out.println("Client says: " + msg);
+out.println("Hello from Server!");
+
+socket.close();
+server.close();
+
+TCP Client:
+Socket socket = new Socket("localhost", 9999);
+BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+out.println("Hello Server!");
+System.out.println("Server says: " + in.readLine());
+socket.close();
+
+Output:
+Server: Client says: Hello Server!
+Client: Server says: Hello from Server!
+
+iii. UDP Communication (Unreliable but Fast)
+-> Classes:
+DatagramSocket
+DatagramPacket
+-> UDP is connectionless, meaning there’s no handshake before sending data.
+
+Example:
+
+UDP Server:
+DatagramSocket socket = new DatagramSocket(8888);
+byte[] buffer = new byte[1024];
+
+DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+System.out.println("Server waiting for message...");
+
+socket.receive(packet);
+String msg = new String(packet.getData(), 0, packet.getLength());
+System.out.println("Received: " + msg);
+socket.close();
+
+URL and URLConnection
+-> Used for working with web resources (HTTP/HTTPS).
+
+Example:
+URL url = new URL("https://www.example.com");
+URLConnection conn = url.openConnection();
+
+BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+String line;
+while ((line = br.readLine()) != null) {
+  System.out.println(line);
+}
+br.close();
+This code fetches and prints the HTML content of a webpage.
+
+Multithreaded Networking
+-> In real-world servers, multiple clients connect at once.
+-> To handle this, servers use threads — one per client.
+
+Example:
+import java.io.*;
+import java.net.*;
+
+public class ChatServer {
+    public static void main(String[] args) throws Exception {
+        ServerSocket serverSocket = new ServerSocket(5555);
+        System.out.println("Chat Server Started...");
+
+        while (true) {
+            Socket socket = serverSocket.accept();
+            new ClientHandler(socket).start();
+        }
+    }
+}
+
+class ClientHandler extends Thread {
+    Socket socket;
+
+    ClientHandler(Socket socket) {
+        this.socket = socket;
+    }
+
+    public void run() {
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
+            out.println("Welcome to Chat Server!");
+            String msg;
+            while ((msg = in.readLine()) != null) {
+                System.out.println("Client: " + msg);
+                out.println("Echo: " + msg);
+            }
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+Modern Networking (Java 11+)
+-> Since Java 11, the java.net.http.HttpClient API provides modern HTTP features.
+
+import java.net.http.*;
+import java.net.*;
+
+public class HttpClientExample {
+    public static void main(String[] args) throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.github.com"))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+    }
+}
